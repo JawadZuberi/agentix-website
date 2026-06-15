@@ -1,0 +1,417 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AGENTIX SOLUTION — Design tokens
+   Brand identity derived from the logo gradient:
+   deep indigo/blue -> purple/magenta -> crimson -> orange-red,
+   on a near-black base. Swap these to retune the whole site.
+   ============================================================ */
+
+@theme {
+  /* Surfaces */
+  --color-bg: #f6f5f2;
+  --color-bg-2: #efece6;
+  --color-surface: #ffffff;
+  --color-surface-2: #16162400;
+  --color-line: #0000001a;
+  --color-line-strong: #00000029;
+
+  /* Text */
+  --color-fg: #0b0b10;
+  --color-muted: #55555f;
+  --color-faint: #6f6f78;
+
+  /* Brand stops (true to the logo) */
+  --color-brand-blue: #2e3192;
+  --color-brand-indigo: #4448c7;
+  --color-brand-purple: #7a2e8f;
+  --color-brand-magenta: #a8329a;
+  --color-brand-red: #c0392b;
+  --color-brand-orange: #e2542c;
+
+  /* Brighter variants for text/glow on dark backgrounds */
+  --color-accent: #8b5cf6;
+  --color-accent-blue: #5b6cff;
+  --color-accent-red: #ff5a3c;
+
+  /* Type */
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  /* Easing / motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The signature gradient — used everywhere the brand shows up */
+:root {
+  --grad-brand: linear-gradient(
+    120deg,
+    #2e3192 0%,
+    #4448c7 22%,
+    #7a2e8f 48%,
+    #c0392b 76%,
+    #e2542c 100%
+  );
+  --grad-brand-soft: linear-gradient(
+    120deg,
+    #5b6cff 0%,
+    #a23bbf 50%,
+    #ff5a3c 100%
+  );
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #7a2e8f26;
+  color: #0b0b10;
+}
+
+/* Ambient grain + glow background for the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(60rem 60rem at 12% -10%, #2e319214, transparent 60%),
+    radial-gradient(50rem 50rem at 100% 0%, #c0392b10, transparent 55%),
+    radial-gradient(60rem 40rem at 50% 120%, #7a2e8f10, transparent 60%);
+  pointer-events: none;
+}
+
+/* ---------- Reusable brand utilities ---------- */
+@layer utilities {
+  .text-gradient {
+    background: var(--grad-brand-soft);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-grad {
+    background-image: var(--grad-brand);
+  }
+  .bg-grad-soft {
+    background-image: var(--grad-brand-soft);
+  }
+  .border-grad {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      var(--grad-brand) border-box;
+  }
+  .glass {
+    background: color-mix(in oklab, var(--color-surface) 80%, transparent);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--color-line);
+  }
+  .glow {
+    box-shadow: 0 1px 0 #00000008, 0 30px 80px -45px rgba(0, 0, 0, 0.22);
+  }
+  .display {
+    font-family: var(--font-display), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+  }
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  /* Fade-up start state for JS-driven reveals (GSAP/Framer set the end state) */
+  .will-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+/* ---------- Animations ---------- */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ============================================================
+   PREMIUM ANIMATION PRIMITIVES (additive)
+   Aurora background, section dividers, card hovers, link
+   underlines, and a diagonal shine sweep.
+   ============================================================ */
+
+/* ---------- Aurora ambient background ---------- */
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  will-change: transform;
+  mix-blend-mode: multiply;
+}
+.aurora-blob-1 {
+  width: 38rem;
+  height: 38rem;
+  top: -10%;
+  left: -8%;
+  background: radial-gradient(circle at center, #2e3192 0%, transparent 70%);
+  animation: aurora-drift-1 22s var(--ease-out-expo) infinite alternate;
+}
+.aurora-blob-2 {
+  width: 34rem;
+  height: 34rem;
+  top: -5%;
+  right: -6%;
+  background: radial-gradient(circle at center, #7a2e8f 0%, transparent 70%);
+  animation: aurora-drift-2 26s var(--ease-out-expo) infinite alternate;
+}
+.aurora-blob-3 {
+  width: 40rem;
+  height: 40rem;
+  bottom: -18%;
+  left: 30%;
+  background: radial-gradient(circle at center, #e2542c 0%, transparent 70%);
+  animation: aurora-drift-3 30s var(--ease-out-expo) infinite alternate;
+}
+
+@keyframes aurora-drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(8%, 6%, 0) scale(1.18);
+  }
+}
+@keyframes aurora-drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-7%, 9%, 0) scale(0.9);
+  }
+}
+@keyframes aurora-drift-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  100% {
+    transform: translate3d(-9%, -7%, 0) scale(1.2);
+  }
+}
+
+@layer utilities {
+  .bg-aurora {
+    position: relative;
+    isolation: isolate;
+  }
+}
+
+/* ---------- Section divider (moving gradient shine) ---------- */
+.section-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: var(--color-line);
+  overflow: hidden;
+}
+.section-divider::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 20%,
+    #4448c7 38%,
+    #a8329a 50%,
+    #e2542c 62%,
+    transparent 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: divider-shine 6s linear infinite;
+}
+
+@keyframes divider-shine {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------- Card hover: lift + glow + gradient ring ---------- */
+.card-hover {
+  position: relative;
+  transition:
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s var(--ease-out-expo);
+  will-change: transform;
+}
+.card-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad-brand);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+  pointer-events: none;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 1px 0 #00000008,
+    0 24px 60px -30px rgba(46, 49, 146, 0.35),
+    0 18px 50px -34px rgba(226, 84, 44, 0.3);
+}
+.card-hover:hover::before {
+  opacity: 1;
+}
+
+/* ---------- Animated gradient underline for links ---------- */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background: var(--grad-brand-soft);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s var(--ease-out-expo);
+}
+.hover-underline:hover::after,
+.hover-underline:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Diagonal shine sweep on hover ---------- */
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  transition: left 0.7s var(--ease-out-expo);
+  pointer-events: none;
+}
+.shine:hover::after {
+  left: 130%;
+}
+
+/* Respect reduced-motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Premium primitives: hold a static, readable end-state */
+  .aurora-blob,
+  .section-divider::after {
+    animation: none !important;
+  }
+  .section-divider::after {
+    opacity: 0.5;
+    background-position: 50% 0 !important;
+  }
+}
+
+/* Hide the native cursor when the custom cursor is active (desktop only) */
+@media (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Tilt helper for hover cards */
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+/* Thin custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f6f5f2;
+}
+::-webkit-scrollbar-thumb {
+  background: #d7d4cf;
+  border-radius: 99px;
+  border: 2px solid #f6f5f2;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c4c0b9;
+}

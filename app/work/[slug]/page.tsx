@@ -1,0 +1,245 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { PageHeader } from "@/components/PageHeader";
+import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/Icon";
+import { Counter } from "@/components/Counter";
+import { Parallax } from "@/components/Parallax";
+import { Reveal } from "@/components/Reveal";
+import { AnimatedText } from "@/components/AnimatedText";
+import { WorkCard } from "@/components/WorkCard";
+import { Tilt } from "@/components/ui/Tilt";
+import { Aurora } from "@/components/ui/Aurora";
+import { SectionDivider } from "@/components/ui/SectionDivider";
+import { cases } from "@/lib/content";
+
+type Params = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return cases.map((c) => ({ slug: c.slug }));
+}
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const item = cases.find((c) => c.slug === slug);
+  if (!item) return { title: "Case study not found" };
+  return {
+    title: `${item.client} — ${item.title}`,
+    description: item.summary,
+  };
+}
+
+export default async function CaseStudyPage({ params }: Params) {
+  const { slug } = await params;
+  const item = cases.find((c) => c.slug === slug);
+  if (!item) notFound();
+
+  const idx = cases.findIndex((c) => c.slug === slug);
+  const next = cases[(idx + 1) % cases.length];
+
+  // Related projects: up to 3 OTHER cases sharing at least one service tag,
+  // with a stable fallback to the cases that follow this one.
+  const others = cases.filter((c) => c.slug !== item.slug);
+  const serviceSet = new Set(item.services);
+  const related = others
+    .filter((c) => c.services.some((s) => serviceSet.has(s)))
+    .slice(0, 3);
+  if (related.length < 3) {
+    for (const c of others) {
+      if (related.length >= 3) break;
+      if (!related.some((r) => r.slug === c.slug)) related.push(c);
+    }
+  }
+
+  return (
+    <>
+      <div className="relative overflow-hidden">
+        <Aurora className="absolute inset-0 -z-10" intensity="soft" />
+        <PageHeader
+          eyebrow={`${item.sector} · ${item.year}`}
+          title={item.title}
+          intro={item.summary}
+        />
+      </div>
+
+      <section className="container-x">
+        {/* hero panel */}
+        <Reveal>
+          <div
+            className="shine relative mb-12 aspect-[21/9] overflow-hidden rounded-3xl border border-line"
+            style={{
+              background: `radial-gradient(120% 120% at 20% 10%, ${item.accent}26, transparent 60%), linear-gradient(140deg, #ffffff, #f1eee9)`,
+            }}
+          >
+            <Parallax speed={0.18} className="absolute inset-0 grid place-items-center">
+              <span className="display text-6xl font-bold text-fg/10 sm:text-8xl">
+                {item.client}
+              </span>
+            </Parallax>
+          </div>
+        </Reveal>
+
+        {/* metrics count-up strip */}
+        <Reveal>
+          <div className="card-hover mb-16 grid grid-cols-1 gap-4 rounded-3xl border border-line bg-surface/40 p-6 sm:grid-cols-3">
+            {item.metrics.map((m, i) => (
+              <Reveal
+                key={m.label}
+                delay={i * 0.08}
+                className="text-center sm:text-left sm:border-l sm:border-line sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
+              >
+                <Counter
+                  to={m.to}
+                  prefix={m.prefix}
+                  suffix={m.suffix}
+                  className="display text-4xl font-bold text-gradient sm:text-5xl"
+                />
+                <p className="mt-1 text-sm text-faint">{m.label}</p>
+              </Reveal>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="grid gap-12 lg:grid-cols-[2fr_1fr]">
+          <div className="space-y-10">
+            <Reveal>
+              <AnimatedText
+                as="h2"
+                text="The challenge"
+                className="display block text-2xl font-semibold"
+              />
+              <p className="mt-3 leading-relaxed text-muted">{item.challenge}</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <AnimatedText
+                as="h2"
+                text="Our approach"
+                className="display block text-2xl font-semibold"
+              />
+              <p className="mt-3 leading-relaxed text-muted">{item.approach}</p>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <AnimatedText
+                as="h2"
+                text="The results"
+                className="display block text-2xl font-semibold"
+              />
+              <ul className="mt-4 space-y-3">
+                {item.results.map((r, i) => (
+                  <Reveal key={r} delay={0.12 + i * 0.06} y={16}>
+                    <li className="flex items-start gap-3">
+                      <Icon name="bolt" className="mt-1 size-4 shrink-0 text-accent" />
+                      <span className="text-fg">{r}</span>
+                    </li>
+                  </Reveal>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.08}>
+            <aside className="card-hover h-fit space-y-6 rounded-3xl border border-line bg-surface/40 p-7">
+              <div>
+                <p className="text-xs uppercase tracking-wider text-faint">Client</p>
+                <p className="mt-1 font-medium text-fg">{item.client}</p>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-wider text-faint">Services</p>
+                <ul className="mt-2 flex flex-wrap gap-2">
+                  {item.services.map((s) => (
+                    <li key={s} className="rounded-full border-grad px-3 py-1 text-xs text-fg">
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-wider text-faint">Stack</p>
+                <ul className="mt-2 flex flex-wrap gap-2">
+                  {item.tech.map((t) => (
+                    <li key={t} className="rounded-full border border-line px-3 py-1 text-xs text-muted">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Button href="/contact" arrow className="w-full justify-center">
+                Start something similar
+              </Button>
+            </aside>
+          </Reveal>
+        </div>
+
+        <div className="mt-16">
+          <SectionDivider />
+        </div>
+
+        {/* gallery */}
+        <div className="mt-12 grid gap-4 sm:grid-cols-3">
+          {item.gallery.map((g, i) => (
+            <Reveal key={g.label} delay={i * 0.08}>
+              <div
+                className="card-hover shine relative flex aspect-[4/3] items-end overflow-hidden rounded-3xl border border-line p-5"
+                style={{
+                  background: `radial-gradient(120% 120% at 30% 0%, ${g.accent}26, transparent 60%), linear-gradient(140deg, #ffffff, #f1eee9)`,
+                }}
+              >
+                <span className="text-sm font-medium text-fg">{g.label}</span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {/* related projects */}
+        {related.length > 0 && (
+          <div className="mt-24">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <Reveal>
+                <AnimatedText
+                  as="h2"
+                  text="Related projects"
+                  className="display block text-3xl font-semibold sm:text-4xl"
+                />
+              </Reveal>
+              <Reveal delay={0.05}>
+                <Link
+                  href="/work"
+                  className="hover-underline text-sm font-medium text-muted hover:text-fg"
+                >
+                  View all work
+                </Link>
+              </Reveal>
+            </div>
+
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((c, i) => (
+                <Reveal key={c.slug} delay={i * 0.08}>
+                  <Tilt max={4} className="h-full [transform-style:preserve-3d]">
+                    <WorkCard item={c} />
+                  </Tilt>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="mt-20 flex items-center justify-between border-t border-line pt-8">
+          <Link
+            href="/work"
+            className="hover-underline text-sm text-muted hover:text-fg"
+          >
+            ← All work
+          </Link>
+          <Link
+            href={`/work/${next.slug}`}
+            className="hover-underline text-right text-sm text-muted hover:text-fg"
+          >
+            Next case
+            <span className="block font-medium text-fg">{next.client}</span>
+          </Link>
+        </div>
+      </section>
+    </>
+  );
+}
