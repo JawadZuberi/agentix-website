@@ -140,7 +140,7 @@ export function Hero() {
 
         {/* RIGHT: Spline 3D scene */}
         <motion.div
-          className="relative order-2 h-[34vh] w-full sm:h-[46vh] lg:order-2 lg:h-[82vh]"
+          className="relative order-2 h-[34svh] w-full sm:h-[46svh] lg:order-2 lg:h-[82svh]"
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2, ease }}

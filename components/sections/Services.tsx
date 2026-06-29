@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -7,8 +6,6 @@ import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Button } from "@/components/ui/Button";
 import { services } from "@/lib/content";
-
-const GeoAccent = dynamic(() => import("@/components/three/GeoAccent"));
 
 // 12-col bento that tiles cleanly with no gaps: two feature cards span 8
 // columns, every other card spans 4 — so each row sums to exactly 12.
@@ -25,10 +22,6 @@ export function Services() {
       <Aurora className="absolute inset-0 -z-10" intensity="soft" />
 
       <div className="container-x">
-        <div className="pointer-events-none absolute inset-0 -z-0 opacity-50">
-          <GeoAccent />
-        </div>
-
         <div className="relative flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div className="max-w-3xl">
             <Reveal>

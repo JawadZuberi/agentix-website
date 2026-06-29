@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/PageHeader";
-import { Team } from "@/components/sections/Team";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading, Eyebrow } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
@@ -174,8 +173,6 @@ export default function AboutPage() {
           </div>
         </Reveal>
       </section>
-
-      <Team />
 
       {/* CTA */}
       <section className="container-x py-24 sm:py-32">

@@ -58,7 +58,7 @@ export function WorkGallery({ cases }: { cases: CaseStudy[] }) {
               aria-selected={isActive}
               data-cursor
               onClick={() => setActive(tab.label)}
-              className={`group relative inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+              className={`group relative inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
                 isActive
                   ? "border-transparent text-bg"
                   : "border-line bg-surface/40 text-muted hover:border-line-strong hover:text-fg"

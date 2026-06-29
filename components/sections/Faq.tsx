@@ -23,7 +23,7 @@ export function Faq() {
           return (
             <div key={f.q} className="group">
               <button
-                className="flex w-full items-center justify-between gap-4 py-6 text-left transition-colors"
+                className="flex w-full items-center justify-between gap-4 rounded-lg py-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
                 aria-label={`Toggle answer: ${f.q}`}

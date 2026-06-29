@@ -1,16 +1,8 @@
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { Tilt } from "@/components/ui/Tilt";
+import { caseImage } from "@/lib/caseImages";
 import type { CaseStudy } from "@/lib/content";
-
-/**
- * Reliable, deterministic placeholder image per project (Lorem Picsum, seeded
- * by slug). Grayscale so the brand duotone overlay reads cleanly. Swap for a
- * real screenshot later by giving the case an `image` URL.
- */
-function imageFor(item: CaseStudy) {
-  return `https://picsum.photos/seed/agentix-${item.slug}/1200/800?grayscale`;
-}
 
 export function WorkCard({ item }: { item: CaseStudy }) {
   return (
@@ -19,34 +11,32 @@ export function WorkCard({ item }: { item: CaseStudy }) {
       data-cursor
       className="card-hover shine group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface/40"
     >
-      {/* Visual header — real image with a brand duotone overlay, zooms on hover. */}
+      {/* Visual header — real photo, zooms on hover. */}
       <Tilt className="relative aspect-[16/10] overflow-hidden" max={5}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={imageFor(item)}
+          src={caseImage(item.slug)}
           alt={`${item.client} — ${item.title}`}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.12]"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]"
         />
-        {/* brand duotone tint */}
+        {/* subtle brand tint (keeps the cards cohesive without hiding the photo) */}
         <div
-          className="absolute inset-0 mix-blend-multiply"
+          className="absolute inset-0 opacity-25 transition-opacity duration-500 group-hover:opacity-15"
           style={{
-            background: `linear-gradient(140deg, ${item.accent}f2, #2e3192e6)`,
+            background: `linear-gradient(150deg, ${item.accent}55, transparent 55%)`,
           }}
         />
-        {/* gentle highlight so it doesn't go muddy */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10" />
-        {/* bottom scrim for the label */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+        {/* bottom scrim so the chips + client name stay legible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         {/* service chips */}
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           {item.services.slice(0, 2).map((s) => (
             <span
               key={s}
-              className="rounded-full bg-black/35 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur-md"
+              className="rounded-full bg-black/40 px-3 py-1 text-xs font-medium text-white/95 backdrop-blur-md"
             >
               {s}
             </span>
@@ -55,10 +45,10 @@ export function WorkCard({ item }: { item: CaseStudy }) {
 
         {/* client name + view chip */}
         <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-3">
-          <span className="display text-2xl font-bold text-white drop-shadow-sm">
+          <span className="display text-2xl font-bold text-white drop-shadow-md">
             {item.client}
           </span>
-          <span className="grid size-9 shrink-0 translate-y-1 place-items-center rounded-full bg-white/15 text-white opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <span className="grid size-9 shrink-0 translate-y-1 place-items-center rounded-full bg-white/20 text-white opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
             <Icon name="arrow" className="size-4" />
           </span>
         </div>

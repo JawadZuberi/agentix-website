@@ -12,6 +12,7 @@ import { WorkCard } from "@/components/WorkCard";
 import { Tilt } from "@/components/ui/Tilt";
 import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { caseImage, galleryImages } from "@/lib/caseImages";
 import { cases } from "@/lib/content";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -66,17 +67,28 @@ export default async function CaseStudyPage({ params }: Params) {
       <section className="container-x">
         {/* hero panel */}
         <Reveal>
-          <div
-            className="shine relative mb-12 aspect-[21/9] overflow-hidden rounded-3xl border border-line"
-            style={{
-              background: `radial-gradient(120% 120% at 20% 10%, ${item.accent}26, transparent 60%), linear-gradient(140deg, #ffffff, #f1eee9)`,
-            }}
-          >
-            <Parallax speed={0.18} className="absolute inset-0 grid place-items-center">
-              <span className="display text-6xl font-bold text-fg/10 sm:text-8xl">
+          <div className="shine relative mb-12 aspect-[21/9] overflow-hidden rounded-3xl border border-line">
+            <Parallax speed={0.18} className="absolute -inset-8">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={caseImage(item.slug)}
+                alt={`${item.client} — ${item.title}`}
+                className="h-full w-full object-cover"
+              />
+            </Parallax>
+            {/* brand tint + legibility scrim */}
+            <div
+              className="absolute inset-0 opacity-30"
+              style={{
+                background: `linear-gradient(150deg, ${item.accent}66, transparent 55%)`,
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
+            <div className="absolute inset-0 grid place-items-center">
+              <span className="display text-5xl font-bold text-white/90 drop-shadow-lg sm:text-7xl">
                 {item.client}
               </span>
-            </Parallax>
+            </div>
           </div>
         </Reveal>
 
@@ -179,13 +191,25 @@ export default async function CaseStudyPage({ params }: Params) {
         <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {item.gallery.map((g, i) => (
             <Reveal key={g.label} delay={i * 0.08}>
-              <div
-                className="card-hover shine relative flex aspect-[4/3] items-end overflow-hidden rounded-3xl border border-line p-5"
-                style={{
-                  background: `radial-gradient(120% 120% at 30% 0%, ${g.accent}26, transparent 60%), linear-gradient(140deg, #ffffff, #f1eee9)`,
-                }}
-              >
-                <span className="text-sm font-medium text-fg">{g.label}</span>
+              <div className="card-hover shine group relative flex aspect-[4/3] items-end overflow-hidden rounded-3xl border border-line">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={galleryImages[i % galleryImages.length]}
+                  alt={g.label}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    background: `linear-gradient(150deg, ${g.accent}66, transparent 60%)`,
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+                <span className="relative p-5 text-sm font-medium text-white drop-shadow">
+                  {g.label}
+                </span>
               </div>
             </Reveal>
           ))}

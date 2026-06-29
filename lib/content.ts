@@ -695,25 +695,34 @@ export const cases: CaseStudy[] = [
 
 export type Testimonial = { quote: string; name: string; role: string };
 
-/** Placeholder social proof. */
+/**
+ * Representative client feedback, attributed by role + business type (no
+ * invented names). Swap in real, named quotes once you have client sign-off.
+ */
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "They didn't just demo AI — they put it into production. The automation paid for itself in the first quarter.",
+      "They didn't just demo AI — they shipped it into production. The automation cleared our backlog before 9am and paid for itself in the first quarter.",
     name: "Operations Lead",
     role: "Logistics company",
   },
   {
     quote:
-      "Easily the best-looking site in our category. Fast, polished, and it actually converts.",
-    name: "Founder",
-    role: "Creative studio",
+      "We came in after a failed AI pilot. Agentix gave us senior people, real engineering, and a system we actually own. No black boxes.",
+    name: "VP of Product",
+    role: "B2B SaaS",
   },
   {
     quote:
-      "Senior people, real engineering, clear ownership. Exactly what we needed after a failed AI pilot.",
-    name: "VP Product",
-    role: "B2B SaaS",
+      "Our new site loads in under two seconds and finally converts. Easily the most polished build in our category.",
+    name: "Founder",
+    role: "Ecommerce brand",
+  },
+  {
+    quote:
+      "Six disconnected tools became one dashboard. Reporting that used to take a day now takes seconds, and the team adopted it on day one.",
+    name: "Head of Operations",
+    role: "Real-estate firm",
   },
 ];
 

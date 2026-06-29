@@ -111,7 +111,7 @@ export function ContactForm() {
             id="phone"
             type="tel"
             className={field}
-            placeholder="+1 (555) 000-0000"
+            placeholder="+92 3XX XXXXXXX"
             {...register("phone")}
           />
         </div>
