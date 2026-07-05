@@ -1,7 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useRef } from "react";
 import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/Magnetic";
 import { AnimatedText } from "@/components/AnimatedText";
@@ -39,9 +43,61 @@ function StatValue({ value }: { value: string }) {
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const q = gsap.utils.selector(sectionRef);
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          // Pinned scroll-out: as the user scrolls past the hero, the copy
+          // drifts apart and the robot scales up before handing off to the
+          // marquee. All tweens are .to() from the natural layout, so if JS
+          // fails (or on mobile / reduced motion) everything stays visible.
+          // Short pin, LATE fades: something must be visible at every scroll
+          // position — the section releases right as the last element fades,
+          // so there is never a blank pinned viewport ("dead zone").
+          const tl = gsap.timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              pin: true,
+              start: "top top",
+              end: "+=70%",
+              scrub: 1,
+              anticipatePin: 1,
+            },
+          });
+
+          tl
+            // Headline segments drift apart across the whole pin (movement
+            // only — they stay readable most of the way).
+            .to(q("[data-hero-h1a]"), { x: -70, y: -50, rotation: -3, duration: 1 }, 0)
+            .to(q("[data-hero-h1b]"), { x: 70, y: 50, rotation: 2.5, duration: 1 }, 0)
+            // Opacity fades happen in the last stretch, tightly staggered.
+            .to(q("[data-hero-h1a]"), { opacity: 0, duration: 0.45, ease: "power1.in" }, 0.55)
+            .to(q("[data-hero-h1b]"), { opacity: 0, duration: 0.45, ease: "power1.in" }, 0.55)
+            .to(q("[data-hero-sub]"), { y: -30, opacity: 0, duration: 0.35 }, 0.45)
+            .to(q("[data-hero-cta]"), { y: -30, opacity: 0, duration: 0.35 }, 0.55)
+            .to(q("[data-hero-trust]"), { y: -24, opacity: 0, duration: 0.35 }, 0.62)
+            .to(q("[data-hero-stats]"), { y: -24, opacity: 0, duration: 0.32 }, 0.68)
+            // Robot rides the whole pin and is the LAST thing to go.
+            .to(q("[data-hero-spline]"), { scale: 1.1, y: -50, duration: 1 }, 0)
+            .to(q("[data-hero-spline]"), { opacity: 0, duration: 0.18, ease: "power1.in" }, 0.82);
+        }
+      );
+    },
+    { scope: sectionRef }
+  );
+
   return (
-    <section className="relative flex min-h-[92svh] items-center overflow-hidden">
+    <section ref={sectionRef} className="relative flex min-h-[92svh] items-center overflow-hidden">
       {/* Animated aurora backdrop behind everything */}
       <Aurora className="absolute inset-0 -z-10" intensity="bold" />
 
@@ -68,49 +124,58 @@ export function Hero() {
           </motion.div>
 
           <h1 className="display mt-8 text-balance text-5xl font-bold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-            <AnimatedText text="Build Smarter. Automate Faster." by="word" delay={0.25} />{" "}
-            <span className="text-gradient">
+            <span data-hero-h1a className="inline-block">
+              <AnimatedText text="Build Smarter. Automate Faster." by="word" delay={0.25} />
+            </span>{" "}
+            <span data-hero-h1b className="text-gradient inline-block">
               <AnimatedText text="Scale With Confidence." by="word" delay={0.5} />
             </span>
           </h1>
 
-          <motion.p
-            className="mt-7 max-w-xl text-lg leading-relaxed text-muted"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.85, ease }}
-          >
-            {hero.subheadline}
-          </motion.p>
+          <div data-hero-sub>
+            <motion.p
+              className="mt-7 max-w-xl text-lg leading-relaxed text-muted"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.85, ease }}
+            >
+              {hero.subheadline}
+            </motion.p>
+          </div>
 
-          <motion.div
-            className="mt-9 flex flex-wrap items-center gap-4"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.95, ease }}
-          >
-            <Magnetic>
-              <Button href={hero.ctaPrimary.href} arrow data-cursor className="shine">
-                {hero.ctaPrimary.label}
-              </Button>
-            </Magnetic>
-            <Magnetic>
-              <Button href={hero.ctaSecondary.href} variant="outline" data-cursor>
-                {hero.ctaSecondary.label}
-              </Button>
-            </Magnetic>
-          </motion.div>
+          <div data-hero-cta>
+            <motion.div
+              className="mt-9 flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.95, ease }}
+            >
+              <Magnetic>
+                <Button href={hero.ctaPrimary.href} arrow data-cursor className="shine">
+                  {hero.ctaPrimary.label}
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button href={hero.ctaSecondary.href} variant="outline" data-cursor>
+                  {hero.ctaSecondary.label}
+                </Button>
+              </Magnetic>
+            </motion.div>
+          </div>
 
-          <motion.p
-            className="mt-6 text-xs font-medium tracking-wide text-faint"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.05, ease }}
-          >
-            {hero.trustLine}
-          </motion.p>
+          <div data-hero-trust>
+            <motion.p
+              className="mt-6 text-xs font-medium tracking-wide text-faint"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.05, ease }}
+            >
+              {hero.trustLine}
+            </motion.p>
+          </div>
 
           <motion.dl
+            data-hero-stats
             className="mt-14 grid max-w-lg grid-cols-2 gap-6 sm:grid-cols-4"
             initial="hidden"
             animate="show"
@@ -139,12 +204,16 @@ export function Hero() {
         </div>
 
         {/* RIGHT: Spline 3D scene */}
-        <motion.div
-          className="relative order-2 h-[34svh] w-full sm:h-[46svh] lg:order-2 lg:h-[82svh]"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.2, ease }}
+        <div
+          data-hero-spline
+          className="order-2 h-[34svh] w-full sm:h-[46svh] lg:order-2 lg:h-[82svh]"
         >
+          <motion.div
+            className="relative h-full w-full"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2, ease }}
+          >
           {/* Soft brand gradient glow halo directly behind the robot */}
           <span
             aria-hidden="true"
@@ -158,6 +227,7 @@ export function Hero() {
 
           <SplineScene url={SPLINE_URL} className="absolute inset-0" />
         </motion.div>
+        </div>
       </div>
 
       {/* Scroll hint */}

@@ -1,11 +1,23 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { createElement, type ElementType } from "react";
+import { createElement, useRef, type ElementType } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 /**
- * Mask-reveal heading: splits into words (or chars) that rise from behind a
- * clip on scroll-in. Falls back to plain text under reduced-motion.
+ * Mask-reveal heading powered by GSAP SplitText: glyphs rise from behind a
+ * line mask when the element scrolls into view.
+ *
+ * - Server renders the plain, unsplit text (SSR/SEO-safe, no hydration
+ *   mismatch); splitting happens on mount inside useGSAP.
+ * - Reduced-motion users get the plain text with no split or animation.
+ * - `.text-gradient` headings are split by word with each word span carrying
+ *   the gradient class itself, since background-clip gradients break when the
+ *   painted text is moved out of the parent's background area.
  */
 export function AnimatedText({
   text,
@@ -13,7 +25,7 @@ export function AnimatedText({
   by = "word",
   className,
   delay = 0,
-  stagger = 0.04,
+  stagger,
   once = true,
 }: {
   text: string;
@@ -24,42 +36,86 @@ export function AnimatedText({
   stagger?: number;
   once?: boolean;
 }) {
-  const reduce = useReducedMotion();
-  if (reduce) return createElement(as, { className }, text);
+  const ref = useRef<HTMLElement | null>(null);
 
-  const units = by === "char" ? [...text] : text.split(" ");
+  useGSAP(
+    (_, contextSafe) => {
+      const el = ref.current;
+      if (!el || !contextSafe) return;
 
-  const container: Variants = {
-    hidden: {},
-    show: { transition: { staggerChildren: stagger, delayChildren: delay } },
-  };
-  const child: Variants = {
-    hidden: { y: "110%" },
-    show: { y: "0%", transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
-  };
+      // Reduced motion: leave the plain server-rendered text untouched.
+      if (
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        return;
+      }
+
+      // Gradient text: background-clip gradients break on transformed child
+      // spans, so force word-splitting and give each word the gradient class.
+      const isGradient = (className ?? "").includes("text-gradient");
+      const mode: "word" | "char" = isGradient ? "word" : by;
+
+      let split: SplitText | null = null;
+      let cancelled = false;
+
+      const build = contextSafe(() => {
+        // Guard against double-splitting on fast remounts / late font resolve.
+        if (cancelled || split || !ref.current) return;
+
+        split = new SplitText(el, {
+          type: mode === "char" ? "chars,words,lines" : "words,lines",
+          mask: "lines",
+          linesClass: "at-line",
+          wordsClass: isGradient ? "text-gradient" : "at-word",
+          charsClass: "at-char",
+          aria: "none", // we set aria-label on the element ourselves
+        });
+
+        const targets = mode === "char" ? split.chars : split.words;
+        if (!targets || targets.length === 0) return;
+
+        gsap.from(targets, {
+          yPercent: 115,
+          rotation: mode === "char" ? 6 : 3,
+          // Chars stay opaque behind the mask; words also fade in.
+          opacity: mode === "char" ? 1 : 0,
+          duration: 0.9,
+          ease: "power4.out",
+          stagger: stagger ?? (mode === "char" ? 0.018 : 0.05),
+          delay,
+          scrollTrigger: {
+            trigger: el,
+            start: "top 88%",
+            once: once !== false,
+          },
+        });
+      });
+
+      // Split after webfonts resolve to avoid mid-animation reflow; fall back
+      // to splitting immediately if the Font Loading API is unavailable.
+      if (typeof document !== "undefined" && document.fonts) {
+        if (document.fonts.status === "loaded") {
+          build();
+        } else {
+          document.fonts.ready.then(build).catch(build);
+        }
+      } else {
+        build();
+      }
+
+      return () => {
+        cancelled = true;
+        split?.revert();
+        split = null;
+      };
+    },
+    { scope: ref, dependencies: [] }
+  );
 
   return createElement(
-    motion[as as "span"] ?? motion.span,
-    {
-      className,
-      variants: container,
-      initial: "hidden",
-      whileInView: "show",
-      viewport: { once, margin: "-12% 0px" },
-      "aria-label": text,
-    },
-    units.map((u, i) => (
-      <span
-        key={i}
-        aria-hidden="true"
-        className="inline-flex overflow-hidden align-bottom"
-        style={{ paddingBottom: "0.06em", marginBottom: "-0.06em" }}
-      >
-        <motion.span variants={child} className="inline-block will-change-transform">
-          {u === " " ? " " : u}
-        </motion.span>
-        {by === "word" && i < units.length - 1 ? " " : null}
-      </span>
-    ))
+    as,
+    { ref, className, "aria-label": text } as Record<string, unknown>,
+    text
   );
 }
