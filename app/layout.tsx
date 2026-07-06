@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { ParticleField } from "@/components/three/ParticleField";
 import { Cursor } from "@/components/Cursor";
 import { site } from "@/lib/site";
 import { organizationLd, websiteLd, jsonLdScript } from "@/lib/jsonld";
@@ -63,6 +64,7 @@ export default function RootLayout({
         />
         <Cursor />
         <SmoothScroll />
+        <ParticleField />
         <Header />
         <main>{children}</main>
         <Footer />

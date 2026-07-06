@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { Tilt } from "@/components/ui/Tilt";
+import { DistortImage } from "@/components/three/DistortImage";
 import { caseImage } from "@/lib/caseImages";
 import type { CaseStudy } from "@/lib/content";
 
@@ -11,16 +12,16 @@ export function WorkCard({ item }: { item: CaseStudy }) {
       data-cursor
       className="card-hover shine group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface/40"
     >
-      {/* Visual header — real photo, zooms on hover. */}
+      {/* Visual header — real photo, zooms on hover (wrapper carries the
+          scale so the hover distortion canvas zooms together with the img). */}
       <Tilt className="relative aspect-[16/10] overflow-hidden" max={5}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={caseImage(item.slug)}
-          alt={`${item.client} — ${item.title}`}
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]"
-        />
+        <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]">
+          <DistortImage
+            src={caseImage(item.slug)}
+            alt={`${item.client} — ${item.title}`}
+            className="absolute inset-0 h-full w-full"
+          />
+        </div>
         {/* subtle brand tint (keeps the cards cohesive without hiding the photo) */}
         <div
           className="absolute inset-0 opacity-25 transition-opacity duration-500 group-hover:opacity-15"
