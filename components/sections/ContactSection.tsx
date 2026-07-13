@@ -1,5 +1,4 @@
 import { ContactForm } from "@/components/ContactForm";
-import { Aurora } from "@/components/ui/Aurora";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { AnimatedText } from "@/components/AnimatedText";
 import { Reveal } from "@/components/Reveal";
@@ -19,7 +18,6 @@ export function ContactSection() {
     <>
       <SectionDivider className="container-x" />
       <section id="contact" className="bg-aurora relative py-24 sm:py-32">
-        <Aurora className="absolute inset-0 -z-10" intensity="soft" />
 
         <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.15fr]">
           {/* Left: pitch + details */}

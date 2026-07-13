@@ -1,14 +1,12 @@
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { AnimatedText } from "@/components/AnimatedText";
-import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { whyChooseUs } from "@/lib/content";
 
 export function WhyChooseUs() {
   return (
     <section className="bg-aurora relative overflow-hidden py-24 sm:py-32">
-      <Aurora className="absolute inset-0 -z-10" intensity="soft" />
 
       <div className="container-x">
         <div className="max-w-3xl">

@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ParticleField } from "@/components/three/ParticleField";
 import { Cursor } from "@/components/Cursor";
+import { RouteTransition } from "@/components/RouteTransition";
 import { site } from "@/lib/site";
 import { organizationLd, websiteLd, jsonLdScript } from "@/lib/jsonld";
 
@@ -63,6 +64,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={jsonLdScript(websiteLd())}
         />
         <Cursor />
+        <RouteTransition />
         <SmoothScroll />
         <ParticleField />
         <Header />

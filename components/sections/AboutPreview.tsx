@@ -1,22 +1,12 @@
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/Reveal";
 import { AnimatedText } from "@/components/AnimatedText";
-import { Parallax } from "@/components/Parallax";
-import { Aurora } from "@/components/ui/Aurora";
 import { Button } from "@/components/ui/Button";
 import { aboutPreview } from "@/lib/content";
 
 export function AboutPreview() {
   return (
-    <section className="bg-aurora relative overflow-hidden py-24 sm:py-32">
-      {/* soft drifting aurora accent */}
-      <Parallax
-        speed={0.3}
-        className="pointer-events-none absolute -right-24 top-10 -z-10 hidden h-[28rem] w-[28rem] lg:block"
-      >
-        <Aurora className="absolute inset-0" intensity="soft" />
-      </Parallax>
-
+    <section className="relative overflow-hidden py-24 sm:py-32">
       <div className="container-x">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">

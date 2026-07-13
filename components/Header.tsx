@@ -1,16 +1,51 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { Logo } from "@/components/ui/Logo";
 import { Button } from "@/components/ui/Button";
 import { nav } from "@/lib/site";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const headerRef = useRef<HTMLElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!progressRef.current) return;
+
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        // Page scroll progress: one scrubbed ScrollTrigger spanning the
+        // whole document. Bar starts at scaleX 0 (invisible), so under
+        // reduced-motion / no-JS nothing shows.
+        gsap.fromTo(
+          progressRef.current,
+          { scaleX: 0 },
+          {
+            scaleX: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: document.body,
+              start: "top top",
+              end: "max",
+              scrub: true,
+            },
+          }
+        );
+      });
+    },
+    { scope: headerRef }
+  );
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -24,13 +59,14 @@ export function Header() {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled ? "py-2" : "py-4"
       }`}
     >
       <div className="container-x">
         <div
-          className={`flex items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-300 ${
+          className={`relative flex items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-300 ${
             scrolled
               ? "glass glow backdrop-blur-xl"
               : "border border-transparent"
@@ -90,6 +126,13 @@ export function Header() {
               />
             </div>
           </button>
+
+          {/* Page scroll-progress bar, hugging the pill's bottom edge */}
+          <div
+            ref={progressRef}
+            aria-hidden="true"
+            className="bg-grad pointer-events-none absolute inset-x-3 bottom-0 h-0.5 origin-left scale-x-0 rounded-full"
+          />
         </div>
 
         {/* Mobile menu */}

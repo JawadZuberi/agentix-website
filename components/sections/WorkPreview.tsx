@@ -139,6 +139,7 @@ export function WorkPreview() {
             GSAP-translated (overflow visible) when pinned on desktop. */}
         <div
           ref={trackRef}
+          data-cursor-label="Drag"
           className="container-x mt-14 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4 lg:snap-none lg:overflow-visible lg:pb-0 lg:will-change-transform"
         >
           {cases.slice(0, 6).map((item, i) => (

@@ -12,7 +12,7 @@ export function Aurora({
   className?: string;
   intensity?: "soft" | "bold";
 }) {
-  const opacity = intensity === "bold" ? 0.4 : 0.25;
+  const opacity = intensity === "bold" ? 0.3 : 0.16;
 
   return (
     <div

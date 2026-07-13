@@ -5,7 +5,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Aurora } from "@/components/ui/Aurora";
 import { process } from "@/lib/content";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -50,7 +49,6 @@ export function Process() {
   return (
     <section className="relative overflow-hidden py-24 sm:py-32" ref={root}>
       {/* Ambient brand aurora behind the whole process band */}
-      <Aurora className="absolute inset-0 -z-10" intensity="soft" />
       <div className="container-x grid gap-12 lg:grid-cols-2 lg:gap-16">
         {/* LEFT: sticky heading column */}
         <div className="lg:sticky lg:top-28 lg:self-start">

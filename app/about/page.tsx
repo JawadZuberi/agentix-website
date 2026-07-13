@@ -74,7 +74,6 @@ export default function AboutPage() {
       <section className="container-x py-12 sm:py-20">
         <Reveal>
           <div className="card-hover relative overflow-hidden rounded-3xl border border-line bg-surface/40 p-8 sm:p-12">
-            <Aurora className="absolute inset-0 -z-10" intensity="soft" />
             <div className="grid items-center gap-10 lg:grid-cols-[auto_1fr] lg:gap-14">
               {/* portrait — real photo at public/team/jawad-zuberi.jpg, with a
                   graceful "JZ" gradient fallback behind it (no broken icon). */}
@@ -178,7 +177,6 @@ export default function AboutPage() {
       <section className="container-x py-24 sm:py-32">
         <Reveal>
           <div className="card-hover shine relative overflow-hidden rounded-3xl border border-line bg-surface/40 p-10 text-center sm:p-16">
-            <Aurora className="absolute inset-0 -z-10" intensity="soft" />
             <SectionHeading
               eyebrow="Let's build together"
               title={

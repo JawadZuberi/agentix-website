@@ -10,6 +10,7 @@ export function WorkCard({ item }: { item: CaseStudy }) {
     <Link
       href={`/work/${item.slug}`}
       data-cursor
+      data-cursor-label="View"
       className="card-hover shine group relative flex flex-col overflow-hidden rounded-3xl border border-line bg-surface/40"
     >
       {/* Visual header — real photo, zooms on hover (wrapper carries the

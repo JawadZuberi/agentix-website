@@ -184,7 +184,7 @@ body::before {
 .aurora-blob {
   position: absolute;
   border-radius: 9999px;
-  filter: blur(70px);
+  filter: blur(95px);
   will-change: transform;
   mix-blend-mode: multiply;
 }
