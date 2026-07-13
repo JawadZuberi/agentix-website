@@ -8,8 +8,7 @@ import { SectionDivider } from "@/components/ui/SectionDivider";
 import { about, stats } from "@/lib/content";
 import { site } from "@/lib/site";
 
-const pageTitle =
-  "About — Agentix Solution | AI Automation & Technology Development Agency";
+const pageTitle = "About — AI Automation & Technology Development Agency";
 const pageDescription =
   "Agentix Solution is an AI automation and technology development agency. We combine AI automation, custom software development, and premium design to help businesses replace manual work with intelligent, reliable systems.";
 
