@@ -8,7 +8,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/Magnetic";
-import { AnimatedText } from "@/components/AnimatedText";
 import { Counter } from "@/components/Counter";
 import { Eyebrow } from "@/components/ui/SectionHeading";
 import { Aurora } from "@/components/ui/Aurora";
@@ -43,6 +42,12 @@ function StatValue({ value }: { value: string }) {
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+// Single authoritative pin length for the hero. The pin timeline below AND
+// the robot's scroll rotation (SplineScene) are both anchored to this exact
+// end, so the robot finishes turning precisely as the section unpins — one
+// scroll clock for the whole hero subtree, no post-unpin drift.
+const HERO_PIN_END = "+=60%";
+
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function Hero() {
@@ -69,7 +74,7 @@ export function Hero() {
               trigger: sectionRef.current,
               pin: true,
               start: "top top",
-              end: "+=70%",
+              end: HERO_PIN_END,
               scrub: 1,
               anticipatePin: 1,
             },
@@ -87,9 +92,12 @@ export function Hero() {
             .to(q("[data-hero-cta]"), { y: -30, opacity: 0, duration: 0.35 }, 0.55)
             .to(q("[data-hero-trust]"), { y: -24, opacity: 0, duration: 0.35 }, 0.62)
             .to(q("[data-hero-stats]"), { y: -24, opacity: 0, duration: 0.32 }, 0.68)
-            // Robot rides the whole pin and is the LAST thing to go.
-            .to(q("[data-hero-spline]"), { scale: 1.1, y: -50, duration: 1 }, 0)
-            .to(q("[data-hero-spline]"), { opacity: 0, duration: 0.18, ease: "power1.in" }, 0.82);
+            // Robot rides the WHOLE pin and stays fully visible until release:
+            // as the copy clears in the last third it keeps scaling up so the
+            // frame is never empty (no pinned dead-zone), then the next section
+            // wipes over it as the hero unpins. No opacity fade here — the
+            // robot's scroll rotation is timed to finish exactly at release.
+            .to(q("[data-hero-spline]"), { scale: 1.14, y: -60, duration: 1 }, 0);
         }
       );
     },
@@ -123,12 +131,16 @@ export function Hero() {
             <Eyebrow>AI automation agency · 2026</Eyebrow>
           </motion.div>
 
+          {/* LCP headline: rendered as plain server-side text so it paints
+              immediately (on mobile the robot is gated off, so this h1 is the
+              LCP element). No opacity/mask reveal that would hold it hidden
+              until JS — only the desktop pin timeline transforms it on scroll. */}
           <h1 className="display mt-8 text-balance text-5xl font-bold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
             <span data-hero-h1a className="inline-block">
-              <AnimatedText text="Build Smarter. Automate Faster." by="word" delay={0.25} />
+              AI automation that ships to production —
             </span>{" "}
             <span data-hero-h1b className="text-gradient inline-block">
-              <AnimatedText text="Scale With Confidence." by="word" delay={0.5} />
+              not another demo.
             </span>
           </h1>
 
@@ -225,7 +237,12 @@ export function Hero() {
             className="animate-float pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-line opacity-40"
           />
 
-          <SplineScene url={SPLINE_URL} className="absolute inset-0" />
+          <SplineScene
+            url={SPLINE_URL}
+            className="absolute inset-0"
+            sectionRef={sectionRef}
+            scrollEnd={HERO_PIN_END}
+          />
         </motion.div>
         </div>
       </div>

@@ -18,9 +18,10 @@ export function WorkCard({ item }: { item: CaseStudy }) {
       <Tilt className="relative aspect-[16/10] overflow-hidden" max={5}>
         <div className="absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]">
           <DistortImage
-            src={caseImage(item.slug)}
+            src={caseImage(item.slug, 1200)}
             alt={`${item.client} — ${item.title}`}
             className="absolute inset-0 h-full w-full"
+            sizes="(min-width:1024px) 33vw, 100vw"
           />
         </div>
         {/* subtle brand tint (keeps the cards cohesive without hiding the photo) */}

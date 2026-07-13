@@ -4,14 +4,31 @@ import { WorkGallery } from "@/components/WorkGallery";
 import { Reveal } from "@/components/Reveal";
 import { Aurora } from "@/components/ui/Aurora";
 import { cases } from "@/lib/content";
+import { site } from "@/lib/site";
 
 const projectCount = cases.length;
 const serviceCount = new Set(cases.flatMap((c) => c.services)).size;
 
+const workTitle = "Work — case studies";
+const workDescription =
+  "Selected work from Agentix Solution: AI automation, AI agents, software, web, mobile, SaaS, CRM and dashboards, and ecommerce — all shipped to production.";
+
 export const metadata: Metadata = {
-  title: "Work — case studies",
-  description:
-    "Selected work from Agentix Solution: AI automation, AI agents, software, web, mobile, SaaS, CRM and dashboards, and ecommerce — all shipped to production.",
+  title: workTitle,
+  description: workDescription,
+  alternates: { canonical: "/work" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${workTitle} · ${site.name}`,
+    description: workDescription,
+    url: `${site.url}/work`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${workTitle} · ${site.name}`,
+    description: workDescription,
+  },
 };
 
 export default function WorkPage() {

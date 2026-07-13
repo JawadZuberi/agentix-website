@@ -11,7 +11,7 @@ import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { services, cases } from "@/lib/content";
 import { site } from "@/lib/site";
-import { jsonLdScript } from "@/lib/jsonld";
+import { jsonLdScript, breadcrumbLd } from "@/lib/jsonld";
 
 const BlobAccent = dynamic(() => import("@/components/three/SectionBlob"));
 
@@ -25,9 +25,24 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const s = services.find((x) => x.slug === slug);
   if (!s) return { title: "Service not found" };
+  const title = `${s.title} — ${s.tagline}`;
+  const url = `${site.url}/services/${s.slug}`;
   return {
-    title: `${s.title} — ${s.tagline}`,
+    title,
     description: s.description,
+    alternates: { canonical: `/services/${s.slug}` },
+    openGraph: {
+      type: "website",
+      siteName: site.name,
+      title: `${title} · ${site.name}`,
+      description: s.description,
+      url,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} · ${site.name}`,
+      description: s.description,
+    },
   };
 }
 
@@ -49,9 +64,19 @@ export default async function ServiceDetailPage({ params }: Params) {
     url: `${site.url}/services/${service.slug}`,
   };
 
+  const breadcrumb = breadcrumbLd([
+    { name: "Home", url: site.url },
+    { name: "Services", url: `${site.url}/services` },
+    { name: service.title, url: `${site.url}/services/${service.slug}` },
+  ]);
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLdScript(ld)} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(breadcrumb)}
+      />
 
       {/* Hero with floating 3D accent */}
       <div className="relative overflow-hidden">

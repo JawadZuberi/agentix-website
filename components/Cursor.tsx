@@ -27,26 +27,73 @@ export function Cursor() {
 
   useEffect(() => {
     if (!allowed) return;
-    document.documentElement.classList.add("custom-cursor");
+    const html = document.documentElement;
+
+    // Hide the native cursor ONLY once our dot has a real on-screen position
+    // (the first mousemove). Until then the native cursor stays visible, so
+    // there is never a moment with no cursor at all. Any failure removes the
+    // class so the native cursor can never be permanently lost.
+    let activated = false;
+    const activate = () => {
+      if (activated) return;
+      try {
+        html.classList.add("custom-cursor");
+        activated = true;
+      } catch {
+        try {
+          html.classList.remove("custom-cursor");
+        } catch {
+          /* noop */
+        }
+      }
+    };
+
+    // Track last-dispatched values so we only setState when they actually
+    // change — mousemove fires on every pixel, but hover/label rarely flip.
+    let lastHovering = false;
+    let lastLabelSent: string | null = null;
 
     const move = (e: MouseEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-      const el = e.target as HTMLElement;
-      setHovering(!!el.closest("a, button, [data-cursor], input, textarea, select"));
-      const labelled = el.closest<HTMLElement>("[data-cursor-label]");
-      const next = labelled?.getAttribute("data-cursor-label") || null;
-      setLabel(next);
-      if (next) setLastLabel(next);
+      try {
+        x.set(e.clientX);
+        y.set(e.clientY);
+        // Position is set — now it is safe to swap in the custom cursor.
+        activate();
+
+        const el = e.target as HTMLElement | null;
+        const nextHovering = !!el?.closest(
+          "a, button, [data-cursor], input, textarea, select"
+        );
+        if (nextHovering !== lastHovering) {
+          lastHovering = nextHovering;
+          setHovering(nextHovering);
+        }
+
+        const labelled = el?.closest<HTMLElement>("[data-cursor-label]");
+        const next = labelled?.getAttribute("data-cursor-label") || null;
+        if (next !== lastLabelSent) {
+          lastLabelSent = next;
+          setLabel(next);
+          if (next) setLastLabel(next);
+        }
+      } catch {
+        // Something in the DOM probing failed — never strand the user without
+        // a cursor.
+        try {
+          html.classList.remove("custom-cursor");
+        } catch {
+          /* noop */
+        }
+      }
     };
     const dn = () => setDown(true);
     const up = () => setDown(false);
 
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mousedown", dn);
-    window.addEventListener("mouseup", up);
+    window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("mousedown", dn, { passive: true });
+    window.addEventListener("mouseup", up, { passive: true });
     return () => {
-      document.documentElement.classList.remove("custom-cursor");
+      html.classList.remove("custom-cursor");
       window.removeEventListener("mousemove", move);
       window.removeEventListener("mousedown", dn);
       window.removeEventListener("mouseup", up);

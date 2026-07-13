@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { contactSchema, budgets, type ContactInput } from "@/lib/contactSchema";
@@ -11,13 +11,18 @@ const serviceOptions = [...services.map((s) => s.title), "Not sure yet"];
 const field =
   "w-full rounded-xl border border-line bg-surface/60 px-4 py-3 text-fg placeholder:text-faint outline-none transition-colors focus:border-line-strong focus:ring-2 focus:ring-accent/40";
 const labelCls = "mb-2 block text-sm font-medium text-fg";
-const errorCls = "mt-1.5 text-xs text-accent-red";
+const errorCls = "mt-1.5 text-xs text-[var(--color-error-text)]";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
     "idle"
   );
   const [serverError, setServerError] = useState<string | null>(null);
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (status === "success") successHeadingRef.current?.focus();
+  }, [status]);
 
   const {
     register,
@@ -49,11 +54,21 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="flex h-full flex-col items-center justify-center rounded-3xl border-grad bg-surface/40 p-10 text-center">
+      <div
+        role="alert"
+        aria-live="assertive"
+        className="flex h-full flex-col items-center justify-center rounded-3xl border-grad bg-surface/40 p-10 text-center"
+      >
         <div className="grid size-14 place-items-center rounded-full bg-grad text-2xl text-white">
           ✓
         </div>
-        <h3 className="display mt-5 text-2xl font-semibold">Message sent.</h3>
+        <h3
+          ref={successHeadingRef}
+          tabIndex={-1}
+          className="display mt-5 text-2xl font-semibold focus-visible:outline-none"
+        >
+          Message sent.
+        </h3>
         <p className="mt-2 max-w-sm text-muted">
           Thanks — we&rsquo;ll get back to you within one business day. Want to add
           more detail?
@@ -87,8 +102,20 @@ export function ContactForm() {
           <label className={labelCls} htmlFor="name">
             Name
           </label>
-          <input id="name" className={field} placeholder="Jane Doe" {...register("name")} />
-          {errors.name && <p className={errorCls}>{errors.name.message}</p>}
+          <input
+            id="name"
+            className={field}
+            placeholder="Jane Doe"
+            aria-required="true"
+            aria-invalid={errors.name ? "true" : undefined}
+            aria-describedby={errors.name ? "name-error" : undefined}
+            {...register("name")}
+          />
+          {errors.name && (
+            <p id="name-error" className={errorCls}>
+              {errors.name.message}
+            </p>
+          )}
         </div>
         <div>
           <label className={labelCls} htmlFor="email">
@@ -99,9 +126,16 @@ export function ContactForm() {
             type="email"
             className={field}
             placeholder="jane@company.com"
+            aria-required="true"
+            aria-invalid={errors.email ? "true" : undefined}
+            aria-describedby={errors.email ? "email-error" : undefined}
             {...register("email")}
           />
-          {errors.email && <p className={errorCls}>{errors.email.message}</p>}
+          {errors.email && (
+            <p id="email-error" className={errorCls}>
+              {errors.email.message}
+            </p>
+          )}
         </div>
         <div>
           <label className={labelCls} htmlFor="phone">
@@ -167,13 +201,24 @@ export function ContactForm() {
           rows={5}
           className={`${field} resize-none`}
           placeholder="Tell us the outcome you're after — an agent, an automation, a site, an app…"
+          aria-required="true"
+          aria-invalid={errors.message ? "true" : undefined}
+          aria-describedby={errors.message ? "message-error" : undefined}
           {...register("message")}
         />
-        {errors.message && <p className={errorCls}>{errors.message.message}</p>}
+        {errors.message && (
+          <p id="message-error" className={errorCls}>
+            {errors.message.message}
+          </p>
+        )}
       </div>
 
       {serverError && (
-        <p className="mt-4 rounded-lg border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-sm text-accent-red">
+        <p
+          role="alert"
+          aria-live="assertive"
+          className="mt-4 rounded-lg border border-accent-red/40 bg-accent-red/10 px-4 py-3 text-sm text-[var(--color-error-text)]"
+        >
           {serverError}
         </p>
       )}

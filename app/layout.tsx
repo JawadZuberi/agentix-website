@@ -55,6 +55,12 @@ export default function RootLayout({
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
       <body className="min-h-full">
+        <a
+          href="#main"
+          className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[100] focus-visible:rounded-lg focus-visible:bg-surface focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-fg focus-visible:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+        >
+          Skip to content
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={jsonLdScript(organizationLd())}
@@ -68,7 +74,9 @@ export default function RootLayout({
         <SmoothScroll />
         <ParticleField />
         <Header />
-        <main>{children}</main>
+        <main id="main" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

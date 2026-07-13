@@ -6,11 +6,29 @@ import { Button } from "@/components/ui/Button";
 import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { about, stats } from "@/lib/content";
+import { site } from "@/lib/site";
+
+const pageTitle =
+  "About — Agentix Solution | AI Automation & Technology Development Agency";
+const pageDescription =
+  "Agentix Solution is an AI automation and technology development agency. We combine AI automation, custom software development, and premium design to help businesses replace manual work with intelligent, reliable systems.";
 
 export const metadata: Metadata = {
-  title: "About — Agentix Solution | AI Automation & Technology Development Agency",
-  description:
-    "Agentix Solution is an AI automation and technology development agency. We combine AI automation, custom software development, and premium design to help businesses replace manual work with intelligent, reliable systems.",
+  title: pageTitle,
+  description: pageDescription,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: pageTitle,
+    description: pageDescription,
+    url: `${site.url}/about`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageTitle,
+    description: pageDescription,
+  },
 };
 
 export default function AboutPage() {

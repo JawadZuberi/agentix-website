@@ -3,11 +3,31 @@ import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/Reveal";
 import { Aurora } from "@/components/ui/Aurora";
 import { Tilt } from "@/components/ui/Tilt";
+import { site } from "@/lib/site";
+
+const pageTitle = "Blog — notes on AI automation & the modern web";
+const pageDescription =
+  "Field notes from Agentix Solution on AI agents, automation, custom software, SaaS, CRMs, and digital growth. (Placeholder posts — real content coming soon.)";
 
 export const metadata: Metadata = {
-  title: "Blog — notes on AI automation & the modern web",
-  description:
-    "Field notes from Agentix Solution on AI agents, automation, custom software, SaaS, CRMs, and digital growth. (Placeholder posts — real content coming soon.)",
+  title: pageTitle,
+  description: pageDescription,
+  alternates: { canonical: "/blog" },
+  // Thin placeholder page — keep it out of the index until real posts ship,
+  // but let crawlers follow the links it contains.
+  robots: { index: false, follow: true },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${pageTitle} · ${site.name}`,
+    description: pageDescription,
+    url: `${site.url}/blog`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${pageTitle} · ${site.name}`,
+    description: pageDescription,
+  },
 };
 
 // Placeholder posts — replace with a CMS or MDX when content is ready.

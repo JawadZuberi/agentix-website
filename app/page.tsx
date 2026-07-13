@@ -8,6 +8,7 @@ import { Industries } from "@/components/sections/Industries";
 import { FeaturedSolutions } from "@/components/sections/FeaturedSolutions";
 import { WorkPreview } from "@/components/sections/WorkPreview";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { Faq } from "@/components/sections/Faq";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { servicesLd, faqLd, jsonLdScript } from "@/lib/jsonld";
@@ -33,6 +34,7 @@ export default function HomePage() {
       <FeaturedSolutions />
       <WorkPreview />
       <Testimonials />
+      <Faq />
       <FinalCta />
       <ContactSection />
     </>

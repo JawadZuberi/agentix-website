@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/PageHeader";
@@ -8,12 +9,15 @@ import { Counter } from "@/components/Counter";
 import { Parallax } from "@/components/Parallax";
 import { Reveal } from "@/components/Reveal";
 import { AnimatedText } from "@/components/AnimatedText";
+import { Eyebrow } from "@/components/ui/SectionHeading";
 import { WorkCard } from "@/components/WorkCard";
 import { Tilt } from "@/components/ui/Tilt";
 import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { caseImage, galleryImages } from "@/lib/caseImages";
 import { cases } from "@/lib/content";
+import { site } from "@/lib/site";
+import { breadcrumbLd, jsonLdScript } from "@/lib/jsonld";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -25,9 +29,29 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const item = cases.find((c) => c.slug === slug);
   if (!item) return { title: "Case study not found" };
+
+  const title = `${item.client} — ${item.title}`;
+  const url = `${site.url}/work/${item.slug}`;
+  const image = caseImage(item.slug);
+
   return {
-    title: `${item.client} — ${item.title}`,
+    title,
     description: item.summary,
+    alternates: { canonical: `/work/${item.slug}` },
+    openGraph: {
+      type: "article",
+      siteName: site.name,
+      title: `${title} · ${site.name}`,
+      description: item.summary,
+      url,
+      images: [{ url: image, alt: `${item.client} — ${item.title}` }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} · ${site.name}`,
+      description: item.summary,
+      images: [image],
+    },
   };
 }
 
@@ -53,8 +77,18 @@ export default async function CaseStudyPage({ params }: Params) {
     }
   }
 
+  const breadcrumb = breadcrumbLd([
+    { name: "Home", url: site.url },
+    { name: "Work", url: `${site.url}/work` },
+    { name: item.client, url: `${site.url}/work/${item.slug}` },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLdScript(breadcrumb)}
+      />
       <div className="relative overflow-hidden">
         <Aurora className="absolute inset-0 -z-10" intensity="soft" />
         <PageHeader
@@ -69,11 +103,13 @@ export default async function CaseStudyPage({ params }: Params) {
         <Reveal>
           <div className="shine relative mb-12 aspect-[21/9] overflow-hidden rounded-3xl border border-line">
             <Parallax speed={0.18} className="absolute -inset-8">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={caseImage(item.slug)}
                 alt={`${item.client} — ${item.title}`}
-                className="h-full w-full object-cover"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
               />
             </Parallax>
             {/* brand tint + legibility scrim */}
@@ -192,13 +228,12 @@ export default async function CaseStudyPage({ params }: Params) {
           {item.gallery.map((g, i) => (
             <Reveal key={g.label} delay={i * 0.08}>
               <div className="card-hover shine group relative flex aspect-[4/3] items-end overflow-hidden rounded-3xl border border-line">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={galleryImages[i % galleryImages.length]}
                   alt={g.label}
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                 />
                 <div
                   className="absolute inset-0 opacity-30"
@@ -213,6 +248,60 @@ export default async function CaseStudyPage({ params }: Params) {
               </div>
             </Reveal>
           ))}
+        </div>
+
+        {/* outcome CTA band — reuses the FinalCta visual pattern */}
+        <div className="mt-24">
+          <div className="card-hover shine relative overflow-hidden rounded-3xl border border-line bg-surface/40 px-8 py-16 text-center sm:px-12 sm:py-24">
+            <Aurora className="absolute inset-0 -z-10" intensity="bold" />
+            <div className="pointer-events-none absolute -top-24 left-1/2 size-72 -translate-x-1/2 rounded-full bg-grad opacity-20 blur-3xl" />
+
+            <div className="relative mx-auto max-w-3xl">
+              <Reveal>
+                <Eyebrow>Your project</Eyebrow>
+              </Reveal>
+
+              <Reveal delay={0.05}>
+                <h2 className="display mt-6 text-balance text-3xl font-bold sm:text-5xl">
+                  <AnimatedText
+                    text="Want results like this for your team?"
+                    as="span"
+                  />
+                </h2>
+              </Reveal>
+
+              <Reveal delay={0.1}>
+                <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+                  Tell us about your {item.sector.toLowerCase()} challenge and
+                  we&rsquo;ll scope an AI-driven system built to ship — and to be
+                  owned outright by your team.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.15}>
+                <div className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-4">
+                  <Button href="/contact" arrow data-cursor className="shine">
+                    Start your project
+                  </Button>
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="hover-underline text-sm font-medium text-muted hover:text-fg"
+                  >
+                    {site.email}
+                  </a>
+                  <span aria-hidden="true" className="text-faint">
+                    ·
+                  </span>
+                  <a
+                    href={`tel:${site.phone.replace(/\s+/g, "")}`}
+                    className="hover-underline text-sm font-medium text-muted hover:text-fg"
+                  >
+                    {site.phone}
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+          </div>
         </div>
 
         {/* related projects */}

@@ -10,10 +10,26 @@ import { contactInfo, services, cases } from "@/lib/content";
 
 const SectionBlob = dynamic(() => import("@/components/three/SectionBlob"));
 
+const pageTitle = "Contact — start a project";
+const pageDescription =
+  "Tell Agentix Solution the outcome you want. We'll scope the fastest sensible path to a shipped result — AI automation, agents, websites, mobile apps, software, SaaS, CRMs, and dashboards.";
+
 export const metadata: Metadata = {
-  title: "Contact — start a project",
-  description:
-    "Tell Agentix Solution the outcome you want. We'll scope the fastest sensible path to a shipped result — AI automation, agents, websites, mobile apps, software, SaaS, CRMs, and dashboards.",
+  title: pageTitle,
+  description: pageDescription,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${pageTitle} · ${site.name}`,
+    description: pageDescription,
+    url: `${site.url}/contact`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${pageTitle} · ${site.name}`,
+    description: pageDescription,
+  },
 };
 
 const steps = [

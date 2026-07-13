@@ -5,7 +5,7 @@ import { Icon } from "@/components/Icon";
 type Variant = "primary" | "ghost" | "outline";
 
 const base =
-  "shine group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 will-change-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg/40";
+  "shine group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 will-change-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-bg";
 
 const variants: Record<Variant, string> = {
   primary:

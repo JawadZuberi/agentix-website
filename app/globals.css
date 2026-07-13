@@ -12,14 +12,18 @@
   --color-bg: #f6f5f2;
   --color-bg-2: #efece6;
   --color-surface: #ffffff;
-  --color-surface-2: #16162400;
+  --color-surface-2: #f0eee9;
   --color-line: #0000001a;
   --color-line-strong: #00000029;
 
   /* Text */
   --color-fg: #0b0b10;
-  --color-muted: #55555f;
-  --color-faint: #565661;
+  --color-muted: #55555f; /* secondary text — ~6.7:1 on --color-bg */
+  --color-faint: #6e6e78; /* tertiary text (eyebrows/meta) — ~4.6:1 on --color-bg */
+
+  /* Feedback / state */
+  --color-error-text: #c0281a; /* accessible error text — ~5.4:1 on --color-bg */
+  --color-focus: #2e3192; /* high-contrast focus ring (brand indigo) */
 
   /* Brand stops (true to the logo) */
   --color-brand-blue: #2e3192;
@@ -139,6 +143,15 @@ body::before {
   .will-reveal {
     opacity: 0;
     transform: translateY(28px);
+  }
+  /* Accessible error text (WCAG 1.4.3). Use --color-accent-red only for glows/borders. */
+  .text-error {
+    color: var(--color-error-text);
+  }
+  /* High-contrast focus ring — 3:1+ on the cream page and on gradient buttons */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
   }
 }
 

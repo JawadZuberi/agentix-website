@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState, type RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useWebGLEnabled } from "@/lib/useWebGLEnabled";
@@ -104,13 +104,25 @@ function Glow() {
  * (slow Y turn + gentle X tilt, scrubbed) and to pointer movement over the
  * wrapper (small additive parallax). Both are no-ops if no rotatable object
  * can be discovered in the scene.
+ *
+ * The scroll rotation is anchored to the HERO section (via `sectionRef` +
+ * `scrollEnd`) so it shares the hero's pin clock: the robot finishes turning
+ * exactly as the section unpins, instead of running on an independent
+ * document-body trigger that would keep rotating after the hero releases.
+ * Falls back to a self-contained document-body trigger if no ref is passed.
  */
 export default function SplineScene({
   url,
   className,
+  sectionRef,
+  scrollEnd,
 }: {
   url: string;
   className?: string;
+  /** Hero section to anchor the scroll rotation to (shares the pin clock). */
+  sectionRef?: RefObject<HTMLElement | null>;
+  /** ScrollTrigger `end` matched to the hero pin so rotation completes at release. */
+  scrollEnd?: string;
 }) {
   const webgl = useWebGLEnabled();
   const [loaded, setLoaded] = useState(false);
@@ -186,11 +198,15 @@ export default function SplineScene({
               mm.add(
                 "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
                 () => {
+                  // Anchor to the hero section (same trigger + end as the
+                  // hero pin) so the rotation and the pin share one clock and
+                  // finish together. Fall back to the whole document only when
+                  // no section ref was provided (component used standalone).
                   const st = ScrollTrigger.create({
-                    trigger: document.body,
+                    trigger: sectionRef?.current ?? document.body,
                     start: "top top",
-                    end: "+=180%",
-                    scrub: 1.2,
+                    end: scrollEnd ?? "+=180%",
+                    scrub: 1,
                     onUpdate: (self) => {
                       state.scroll = self.progress;
                       apply();

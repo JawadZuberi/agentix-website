@@ -4,18 +4,18 @@
  */
 
 export const hero = {
-  headline: "Build Smarter. Automate Faster. Scale With Confidence.",
+  headline: "AI automation that ships to production — not another demo.",
   subheadline:
-    "Agentix Solution helps businesses automate workflows, build custom digital products, and create intelligent technology systems that save time, improve efficiency, and support long-term growth.",
+    "We build the AI agents and automations that run your business day to day — engineered, tested, and handed over as code you own outright.",
   ctaPrimary: { label: "Start Your Project", href: "/contact" },
   ctaSecondary: { label: "Explore Our Services", href: "/services" },
   trustLine:
-    "AI Automation • Software Development • Web & App Development • Digital Growth",
+    "AI Automation & Agents — plus the software, web, and growth systems around them",
 };
 
 export const aboutPreview = {
-  heading: "Intelligent Technology Solutions for Modern Businesses",
-  body: "Agentix Solution is an AI automation agency that builds AI-powered automation systems, websites, custom software, mobile apps, CRMs, dashboards, and complete digital growth systems. We help forward-thinking businesses reduce manual work, streamline operations, and scale more efficiently with technology engineered around real goals.",
+  heading: "AI automation, built to run your business",
+  body: "Agentix Solution is an AI automation agency. Our core work is building AI agents and automations that ship to production — and the software, websites, apps, CRMs, and dashboards that surround them. We help forward-thinking businesses replace manual work with intelligent systems they own and can rely on.",
 };
 
 export type Service = {
@@ -410,10 +410,10 @@ export const featuredSolutions: { title: string; body: string }[] = [
 export type Stat = { value: string; label: string };
 
 export const stats: Stat[] = [
-  { value: "40–60%", label: "less manual work, typical" },
-  { value: "3×", label: "faster delivery vs. in-house" },
-  { value: "90+", label: "Lighthouse performance" },
-  { value: "100%", label: "you own what we build" },
+  { value: "90+", label: "Lighthouse performance target" },
+  { value: "100%", label: "code ownership, handed to you" },
+  { value: "Senior", label: "led delivery, start to finish" },
+  { value: "AI-first", label: "automation and agents by default" },
 ];
 
 export const finalCta = {
@@ -441,32 +441,38 @@ export type CaseStudy = {
   gallery: { label: string; accent: string }[];
 };
 
-/** Placeholder portfolio — believable, premium, results-driven (not real clients). */
+/**
+ * Reference builds — illustrative concept projects that show the systems we
+ * design and the outcomes they're built to target. These are not real signed
+ * clients or measured results; company names are descriptors, and every number
+ * is a design target ("built to…"), not a reported outcome. Swap in real,
+ * client-approved case studies with measured results once available.
+ */
 export const cases: CaseStudy[] = [
   {
     slug: "northwind-ops-agent",
-    client: "Northwind Logistics",
+    client: "Logistics operations agent",
     sector: "Logistics",
     title: "An ops agent that clears the inbox before 9am",
     summary:
-      "A document-processing agent that triages shipping exceptions automatically and keeps three systems in sync.",
+      "A reference build: a document-processing agent that triages shipping exceptions automatically and keeps three systems in sync.",
     challenge:
-      "Northwind's operations team spent the first half of every day wading through exception emails — damaged shipments, customs holds, address failures — and manually updating their TMS, ERP, and customer portal for each one. The backlog routinely topped 300 emails by morning, follow-ups slipped past SLA, and two senior coordinators were effectively full-time on triage. Hiring more people would only scale the cost of a broken process.",
+      "A typical logistics operations team spends the first half of every day wading through exception emails — damaged shipments, customs holds, address failures — and manually updating a TMS, ERP, and customer portal for each one. Backlogs routinely top hundreds of emails by morning, follow-ups slip past SLA, and senior coordinators end up effectively full-time on triage. Hiring more people only scales the cost of a broken process — the problem this build is designed to solve.",
     approach:
-      "We built a multi-step agent that reads each exception, classifies it against a trained taxonomy, drafts a tailored customer response, and writes updates back to all three systems through their APIs. Low-confidence or high-value cases route to a human approval queue in Slack, so people review the edge cases instead of every email. We instrumented the whole pipeline with audit logs, confidence thresholds, and guardrails, then tuned it weekly against real outcomes for the first two months.",
+      "We design a multi-step agent that reads each exception, classifies it against a trained taxonomy, drafts a tailored customer response, and writes updates back to all three systems through their APIs. Low-confidence or high-value cases route to a human approval queue in Slack, so people review the edge cases instead of every email. The whole pipeline is instrumented with audit logs, confidence thresholds, and guardrails, then tuned against real outcomes after go-live.",
     results: [
-      "~55% less manual review time across the ops team",
-      "300-email overnight backlog cleared by 9am daily",
-      "Handled 2.4× more exceptions with zero new headcount",
+      "Designed to cut manual review time across the ops team",
+      "Built to clear the overnight exception backlog by 9am daily",
+      "Aims to handle far more exceptions with no new headcount",
     ],
     tech: ["n8n", "OpenAI", "Postgres", "Slack", "REST APIs"],
     services: ["AI Automation", "AI Agent Development"],
-    year: "2026",
+    year: "Concept",
     accent: "#5b6cff",
     metrics: [
-      { to: 55, suffix: "%", label: "less manual review" },
-      { to: 9, prefix: "by ", suffix: "am", label: "backlog cleared" },
-      { to: 0, label: "new headcount" },
+      { to: 9, prefix: "by ", suffix: "am", label: "backlog target" },
+      { to: 3, label: "systems kept in sync" },
+      { to: 0, label: "new headcount by design" },
     ],
     gallery: [
       { label: "Exception triage", accent: "#5b6cff" },
@@ -476,28 +482,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "helio-saas-platform",
-    client: "Helio",
+    client: "Subscription SaaS platform",
     sector: "B2B SaaS",
-    title: "A subscription platform that launched in one quarter",
+    title: "A subscription platform built to launch in one quarter",
     summary:
-      "A multi-tenant SaaS platform with metered billing, dashboards, and self-serve onboarding, live before the next funding milestone.",
+      "A reference build: a multi-tenant SaaS platform with metered billing, dashboards, and self-serve onboarding, scoped to go live before a funding milestone.",
     challenge:
-      "Helio had validated strong demand through a manual pilot but had no real product — just a waitlist and a deadline. They needed a secure, multi-tenant subscription platform live before their next funding milestone, with billing, role-based access, and onboarding that didn't require a sales call for every signup. A misstep on architecture early would have forced an expensive rebuild a year later.",
+      "A common early-stage scenario: strong demand validated through a manual pilot, but no real product — just a waitlist and a deadline. The team needs a secure, multi-tenant subscription platform live before their next funding milestone, with billing, role-based access, and onboarding that doesn't require a sales call for every signup. A misstep on architecture early would force an expensive rebuild a year later — the risk this build is designed to avoid.",
     approach:
-      "We designed and built a multi-tenant platform with isolated workspaces, role-based access control, metered subscription billing through Stripe, and a self-serve onboarding flow that gets a new account productive in minutes. A clean admin layer gave the Helio team visibility into accounts, usage, and revenue without engineering involvement. Everything shipped with automated tests, CI/CD, and observability so the platform could scale without firefighting.",
+      "We design and build a multi-tenant platform with isolated workspaces, role-based access control, metered subscription billing through Stripe, and a self-serve onboarding flow that gets a new account productive in minutes. A clean admin layer gives the team visibility into accounts, usage, and revenue without engineering involvement. Everything ships with automated tests, CI/CD, and observability so the platform can scale without firefighting.",
     results: [
-      "Launched in a single quarter, ahead of the funding milestone",
-      "Self-serve signups converting from day one with no manual setup",
-      "Metered recurring revenue live and reconciling automatically at launch",
+      "Scoped to launch in a single quarter, ahead of a funding milestone",
+      "Self-serve signups designed to convert from day one with no manual setup",
+      "Metered recurring revenue built to reconcile automatically at launch",
     ],
     tech: ["Next.js", "TypeScript", "Postgres", "Stripe Billing", "AWS"],
     services: ["SaaS Development", "Software Development"],
-    year: "2026",
+    year: "Concept",
     accent: "#3f7bd6",
     metrics: [
-      { to: 1, prefix: "in ", suffix: " quarter", label: "to launch" },
-      { to: 99.9, suffix: "%", label: "platform uptime" },
-      { to: 3, suffix: "×", label: "faster onboarding" },
+      { to: 1, prefix: "in ", suffix: " quarter", label: "target to launch" },
+      { to: 3, label: "core systems, one platform" },
+      { to: 100, suffix: "%", label: "self-serve onboarding" },
     ],
     gallery: [
       { label: "User dashboard", accent: "#3f7bd6" },
@@ -507,28 +513,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "vion-commerce-platform",
-    client: "Vion Market",
+    client: "Integrated ecommerce platform",
     sector: "Retail / Ecommerce",
     title: "An online store wired into every back-office system",
     summary:
-      "A high-converting storefront integrated with payments, inventory, and fulfillment, with real-time sync replacing manual reconciliation.",
+      "A reference build: a high-converting storefront integrated with payments, inventory, and fulfillment, with real-time sync replacing manual reconciliation.",
     challenge:
-      "Vion Market's storefront lived in its own silo, disconnected from their inventory system, payment gateway, and fulfillment provider. Staff reconciled orders by hand every day, oversold popular SKUs that were actually out of stock, and shipped late because order data reached the warehouse on a spreadsheet. The mess capped how fast they could grow and quietly eroded customer trust.",
+      "A frequent retail problem: a storefront that lives in its own silo, disconnected from the inventory system, payment gateway, and fulfillment provider. Staff reconcile orders by hand every day, oversell popular SKUs that are actually out of stock, and ship late because order data reaches the warehouse on a spreadsheet. That mess caps how fast a brand can grow and quietly erodes customer trust — exactly what this build is designed to fix.",
     approach:
-      "We rebuilt the store on a fast, conversion-focused foundation with streamlined product pages and a frictionless checkout. Then we connected it to their payment gateway, inventory system, and fulfillment provider through reliable API integrations and webhooks, so stock levels, orders, and shipping status sync in real time. We added monitoring and automatic retries so a single failed call never silently breaks an order again.",
+      "We rebuild the store on a fast, conversion-focused foundation with streamlined product pages and a frictionless checkout. Then we connect it to the payment gateway, inventory system, and fulfillment provider through reliable API integrations and webhooks, so stock levels, orders, and shipping status sync in real time. Monitoring and automatic retries mean a single failed call never silently breaks an order.",
     results: [
-      "32% higher checkout conversion after the rebuild",
-      "Real-time stock and order sync ended overselling",
-      "Daily manual reconciliation eliminated entirely",
+      "Designed to lift checkout conversion after the rebuild",
+      "Real-time stock and order sync built to end overselling",
+      "Built to eliminate daily manual reconciliation entirely",
     ],
     tech: ["Next.js", "TypeScript", "Stripe", "REST & webhooks", "Postgres"],
     services: ["Ecommerce Development", "API Integration"],
-    year: "2026",
+    year: "Concept",
     accent: "#1f9c8b",
     metrics: [
-      { to: 32, suffix: "%", label: "higher conversion" },
-      { to: 0, label: "manual reconciliation" },
+      { to: 0, label: "manual reconciliation by design" },
       { to: 4, label: "systems integrated" },
+      { to: 100, suffix: "%", label: "real-time stock sync" },
     ],
     gallery: [
       { label: "Storefront", accent: "#1f9c8b" },
@@ -538,28 +544,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "vertex-internal-platform",
-    client: "Vertex Health",
+    client: "Internal operations platform",
     sector: "Healthcare",
     title: "Replacing five spreadsheets with one platform",
     summary:
-      "A custom internal platform with an AI copilot that retired fragile spreadsheets and turned hours of reporting into seconds.",
+      "A reference build: a custom internal platform with an AI copilot that retires fragile spreadsheets and turns hours of reporting into seconds.",
     challenge:
-      "Vertex Health ran critical scheduling, capacity, and compliance operations across five interlinked spreadsheets that only one person fully understood. Broken formulas caused real downstream errors, onboarding a new coordinator took weeks, and a single corrupted file could stall a department. Every monthly report meant hours of manual copy-paste before anyone could trust the numbers.",
+      "A situation we see often: critical scheduling, capacity, and compliance operations run across five interlinked spreadsheets that only one person fully understands. Broken formulas cause real downstream errors, onboarding a new coordinator takes weeks, and a single corrupted file can stall a department. Every monthly report means hours of manual copy-paste before anyone can trust the numbers — the fragility this build is designed to remove.",
     approach:
-      "We mapped the spreadsheet logic into a bespoke internal platform with structured data, role-based permissions, and validation that prevents the bad-data errors the old system invited. An AI copilot lets staff search records and generate reports in plain language instead of hunting through tabs. We shipped it with a full test suite, documentation, and a hands-on handover so the team owns and extends it without depending on us.",
+      "We map the spreadsheet logic into a bespoke internal platform with structured data, role-based permissions, and validation that prevents the bad-data errors the old system invited. An AI copilot lets staff search records and generate reports in plain language instead of hunting through tabs. It ships with a full test suite, documentation, and a hands-on handover so the team owns and extends it without depending on us.",
     results: [
-      "5 brittle spreadsheets retired and consolidated",
-      "Monthly reports generated in seconds, not hours",
-      "Owned and operated 100% by the internal team",
+      "Built to retire and consolidate brittle spreadsheets",
+      "Designed to generate monthly reports in seconds, not hours",
+      "Handed over to be owned and operated 100% by the internal team",
     ],
     tech: ["Next.js", "TypeScript", "Postgres", "AI copilot", "Prisma"],
     services: ["Software Development", "CRM & Dashboard Development"],
-    year: "2025",
+    year: "Concept",
     accent: "#4448c7",
     metrics: [
-      { to: 5, label: "spreadsheets retired" },
-      { to: 100, suffix: "%", label: "team-owned" },
-      { to: 60, suffix: "×", label: "faster reporting" },
+      { to: 5, label: "spreadsheets it replaces" },
+      { to: 100, suffix: "%", label: "team-owned by design" },
+      { to: 1, prefix: "1 ", label: "source of truth" },
     ],
     gallery: [
       { label: "Unified data", accent: "#4448c7" },
@@ -569,28 +575,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "lumen-support-agent",
-    client: "Lumen Energy",
+    client: "Customer support agent",
     sector: "Utilities / Energy",
     title: "A support agent that resolves the first reply for you",
     summary:
-      "An AI customer-support agent that answers billing and account questions instantly and deflects the bulk of repetitive tickets.",
+      "A reference build: an AI customer-support agent that answers billing and account questions instantly and deflects the bulk of repetitive tickets.",
     challenge:
-      "Lumen Energy's support team was buried under repetitive tickets — billing explanations, meter questions, payment plans, outage status — that all had documented answers but still needed a human to type them out. First-response times stretched past a day during peak periods, customer satisfaction dipped, and agents burned out on questions they'd answered a thousand times. Adding contractors only papered over the underlying volume problem.",
+      "A common support bottleneck: a team buried under repetitive tickets — billing explanations, meter questions, payment plans, outage status — that all have documented answers but still need a human to type them out. First-response times stretch past a day during peak periods, customer satisfaction dips, and agents burn out on questions they've answered a thousand times. Adding contractors only papers over the underlying volume problem this build is designed to address.",
     approach:
-      "We built a customer-support agent grounded in Lumen's billing policies, knowledge base, and account API, so it answers from verified facts rather than guesses. It handles the full conversation for common requests — pulling real account data, explaining charges, and setting up payment plans — while anything sensitive or low-confidence hands off cleanly to a human with full context attached. We added strict guardrails, escalation rules, and a feedback loop that flags weak answers for review and continuous tuning.",
+      "We build a customer-support agent grounded in the client's billing policies, knowledge base, and account API, so it answers from verified facts rather than guesses. It handles the full conversation for common requests — pulling real account data, explaining charges, and setting up payment plans — while anything sensitive or low-confidence hands off cleanly to a human with full context attached. Strict guardrails, escalation rules, and a feedback loop flag weak answers for review and continuous tuning.",
     results: [
-      "68% of tier-1 tickets resolved without a human",
-      "First-response time cut from 19 hours to under 1 minute",
-      "CSAT up 14 points on AI-handled conversations",
+      "Designed to resolve the bulk of tier-1 tickets without a human",
+      "Built to cut first-response time from hours to under a minute",
+      "Aims to lift CSAT on AI-handled conversations",
     ],
     tech: ["TypeScript", "OpenAI", "Pinecone", "Zendesk API", "Node.js"],
     services: ["AI Agent Development", "AI Automation"],
-    year: "2026",
+    year: "Concept",
     accent: "#6a4dd6",
     metrics: [
-      { to: 68, suffix: "%", label: "tickets auto-resolved" },
-      { to: 1, prefix: "<", suffix: " min", label: "first response" },
-      { to: 14, prefix: "+", suffix: " pts", label: "CSAT lift" },
+      { to: 1, prefix: "<", suffix: " min", label: "first-response target" },
+      { to: 24, prefix: "", suffix: "/7", label: "coverage" },
+      { to: 100, suffix: "%", label: "grounded in verified facts" },
     ],
     gallery: [
       { label: "Live chat agent", accent: "#6a4dd6" },
@@ -600,28 +606,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "atlas-brand-site",
-    client: "Atlas Advisory",
+    client: "Advisory brand site",
     sector: "Professional Services",
-    title: "A brand site that turned traffic into booked calls",
+    title: "A brand site that turns traffic into booked calls",
     summary:
-      "A fast, high-converting marketing site paired with a focused growth program that more than doubled qualified consultation bookings.",
+      "A reference build: a fast, high-converting marketing site paired with a focused growth program designed to grow qualified consultation bookings.",
     challenge:
-      "Atlas Advisory's old website looked dated, loaded slowly, and buried their best work below the fold, so visitors left without ever understanding the offer. The marketing team had no clear conversion path and no reliable analytics, which made every ad dollar a guess. They needed a site that built trust on first impression and a growth engine that turned visits into booked consultations.",
+      "A familiar professional-services problem: a dated website that loads slowly and buries the best work below the fold, so visitors leave without ever understanding the offer. The marketing team has no clear conversion path and no reliable analytics, which makes every ad dollar a guess. What's needed is a site that builds trust on first impression and a growth engine that turns visits into booked consultations — the outcome this build targets.",
     approach:
-      "We designed and built a fast, responsive brand site with a clear narrative, social proof, and a single obvious path to booking a call. On launch we paired it with a focused growth program — technical SEO, landing pages for paid search, and full conversion tracking — so every channel could be measured and optimized against booked calls, not vanity clicks. Continuous A/B testing on headlines, hero, and CTA placement compounded the gains over the first three months.",
+      "We design and build a fast, responsive brand site with a clear narrative, social proof, and a single obvious path to booking a call. On launch we pair it with a focused growth program — technical SEO, landing pages for paid search, and full conversion tracking — so every channel can be measured and optimized against booked calls, not vanity clicks. Continuous A/B testing on headlines, hero, and CTA placement compounds the gains over time.",
     results: [
-      "2.3× more qualified consultation bookings",
-      "Largest Contentful Paint under 1.2s on mobile",
-      "47% lower cost per booked call from paid search",
+      "Designed to grow qualified consultation bookings",
+      "Built to keep Largest Contentful Paint under 1.2s on mobile",
+      "Aims to lower cost per booked call from paid search",
     ],
     tech: ["Next.js", "TypeScript", "Tailwind", "Sanity CMS", "GA4"],
     services: ["Website Development", "Digital Marketing"],
-    year: "2026",
+    year: "Concept",
     accent: "#e2542c",
     metrics: [
-      { to: 2.3, suffix: "×", label: "more bookings" },
-      { to: 1.2, prefix: "<", suffix: "s", label: "mobile LCP" },
-      { to: 47, suffix: "%", label: "lower cost per call" },
+      { to: 1.2, prefix: "<", suffix: "s", label: "mobile LCP target" },
+      { to: 90, prefix: "", suffix: "+", label: "Lighthouse target" },
+      { to: 1, prefix: "1 ", label: "clear path to book" },
     ],
     gallery: [
       { label: "Brand landing", accent: "#e2542c" },
@@ -631,28 +637,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "orbit-fitness-app",
-    client: "Orbit Fitness",
+    client: "Fitness membership app",
     sector: "Health & Fitness",
-    title: "A cross-platform app that kept members coming back",
+    title: "A cross-platform app that keeps members coming back",
     summary:
-      "A single iOS and Android app with class booking, progress tracking, and a backend built to scale, lifting 30-day retention.",
+      "A reference build: a single iOS and Android app with class booking, progress tracking, and a backend built to scale and lift 30-day retention.",
     challenge:
-      "Orbit Fitness ran on a clumsy third-party booking tool and a separate web portal, so members juggled multiple logins just to reserve a class or check their progress. The disjointed experience drove drop-off after the first month and gave Orbit no unified view of member activity. They wanted one polished app for both platforms, backed by a system that could handle peak booking spikes without falling over.",
+      "A common fitness-business setup: a clumsy third-party booking tool and a separate web portal, so members juggle multiple logins just to reserve a class or check their progress. The disjointed experience drives drop-off after the first month and gives the business no unified view of member activity. What's needed is one polished app for both platforms, backed by a system that can handle peak booking spikes without falling over — the goal of this build.",
     approach:
-      "We built a single cross-platform app for iOS and Android with class booking, real-time availability, progress tracking, and push reminders, all behind one clean sign-in. A secure, scalable backend handles the Monday-morning booking rush and gives Orbit a unified view of member engagement for the first time. We instrumented retention and booking funnels from launch so product decisions are driven by real usage, then shipped through the app stores with full release support.",
+      "We build a single cross-platform app for iOS and Android with class booking, real-time availability, progress tracking, and push reminders, all behind one clean sign-in. A secure, scalable backend handles the Monday-morning booking rush and gives the business a unified view of member engagement for the first time. Retention and booking funnels are instrumented from launch so product decisions are driven by real usage, then shipped through the app stores with full release support.",
     results: [
-      "30-day member retention up 41%",
-      "4.8-star average across both app stores",
-      "Booking time cut from 5 taps to 2",
+      "Designed to lift 30-day member retention",
+      "Built for a polished experience across both app stores",
+      "Booking flow streamlined from 5 taps to 2",
     ],
     tech: ["React Native", "TypeScript", "Node.js", "Postgres", "Expo"],
     services: ["Mobile App Development", "Software Development"],
-    year: "2025",
+    year: "Concept",
     accent: "#1f9c8b",
     metrics: [
-      { to: 41, prefix: "+", suffix: "%", label: "30-day retention" },
-      { to: 4.8, prefix: "★ ", label: "app store rating" },
       { to: 2, label: "taps to book" },
+      { to: 2, label: "platforms, one app" },
+      { to: 100, suffix: "%", label: "unified member view" },
     ],
     gallery: [
       { label: "Class booking", accent: "#1f9c8b" },
@@ -662,28 +668,28 @@ export const cases: CaseStudy[] = [
   },
   {
     slug: "nimbus-crm-dashboard",
-    client: "Nimbus Realty",
+    client: "Real-estate CRM & dashboard",
     sector: "Real Estate",
-    title: "A CRM and dashboard that ended the daily data hunt",
+    title: "A CRM and dashboard that ends the daily data hunt",
     summary:
-      "A custom CRM and live analytics dashboard that unified leads from every channel and connected the team's scattered tools.",
+      "A reference build: a custom CRM and live analytics dashboard that unifies leads from every channel and connects a team's scattered tools.",
     challenge:
-      "Nimbus Realty's agents tracked leads across a generic CRM, email, two listing portals, and a pile of spreadsheets, so nobody trusted the pipeline and follow-ups fell through the cracks. Leadership had no real-time view of conversion, agent performance, or where deals stalled, and assembling a weekly report meant a half-day of manual stitching. The disconnected tools were costing real commissions.",
+      "A typical real-estate operation tracks leads across a generic CRM, email, two listing portals, and a pile of spreadsheets, so nobody trusts the pipeline and follow-ups fall through the cracks. Leadership has no real-time view of conversion, agent performance, or where deals stall, and assembling a weekly report means a half-day of manual stitching. Disconnected tools cost real commissions — the leak this build is designed to close.",
     approach:
-      "We built a custom CRM tailored to their sales process, with pipeline stages, automated follow-up reminders, and role-based access for agents and managers. We integrated their listing portals, email, and calendar through APIs so every lead lands in one place automatically, with no double entry. On top sits a live analytics dashboard showing pipeline health, conversion, and agent performance in real time, replacing the weekly manual report entirely.",
+      "We build a custom CRM tailored to the sales process, with pipeline stages, automated follow-up reminders, and role-based access for agents and managers. Listing portals, email, and calendar integrate through APIs so every lead lands in one place automatically, with no double entry. On top sits a live analytics dashboard showing pipeline health, conversion, and agent performance in real time, replacing the weekly manual report entirely.",
     results: [
-      "6 disconnected tools unified into one system",
-      "28% faster lead follow-up with automated reminders",
-      "Weekly reporting time cut from half a day to zero",
+      "Built to unify disconnected tools into one system",
+      "Designed to speed up lead follow-up with automated reminders",
+      "Built to cut weekly reporting from half a day to near zero",
     ],
     tech: ["Next.js", "TypeScript", "Postgres", "REST APIs", "Recharts"],
     services: ["CRM & Dashboard Development", "API Integration"],
-    year: "2026",
+    year: "Concept",
     accent: "#a23bbf",
     metrics: [
-      { to: 6, label: "tools unified" },
-      { to: 28, suffix: "%", label: "faster follow-up" },
-      { to: 0, suffix: " hrs", label: "manual reporting" },
+      { to: 6, label: "tools it unifies" },
+      { to: 0, suffix: " hrs", label: "manual reporting by design" },
+      { to: 1, prefix: "1 ", label: "pipeline, one view" },
     ],
     gallery: [
       { label: "Sales pipeline", accent: "#a23bbf" },
@@ -696,76 +702,63 @@ export const cases: CaseStudy[] = [
 export type Testimonial = { quote: string; name: string; role: string };
 
 /**
- * Representative client feedback, attributed by role + business type (no
- * invented names). Swap in real, named quotes once you have client sign-off.
+ * Principles we build to — not client testimonials. These are unattributed
+ * statements of intent that describe the kind of outcome each project is
+ * designed for. Replace with real, named, client-approved quotes once you
+ * have sign-off; keep the { quote, name, role } shape stable for consumers.
  */
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "They didn't just demo AI — they shipped it into production. The automation cleared our backlog before 9am and paid for itself in the first quarter.",
-    name: "Operations Lead",
-    role: "Logistics company",
+      "We don't stop at a demo. We ship AI into production — automations that run every day and earn their place in your operations.",
+    name: "How we work",
+    role: "AI automation & agents",
   },
   {
     quote:
-      "We came in after a failed AI pilot. Agentix gave us senior people, real engineering, and a system we actually own. No black boxes.",
-    name: "VP of Product",
-    role: "B2B SaaS",
+      "No black boxes. Senior people, real engineering, and a system you own outright — code, infrastructure, and documentation included.",
+    name: "What you get",
+    role: "Ownership & engineering",
   },
   {
     quote:
-      "Our new site loads in under two seconds and finally converts. Easily the most polished build in our category.",
-    name: "Founder",
-    role: "Ecommerce brand",
+      "Fast by default. We build sites and products that load in seconds and are designed to convert, not just to look good.",
+    name: "Our standard",
+    role: "Performance & design",
   },
   {
     quote:
-      "Six disconnected tools became one dashboard. Reporting that used to take a day now takes seconds, and the team adopted it on day one.",
-    name: "Head of Operations",
-    role: "Real-estate firm",
+      "One source of truth. We replace scattered tools and spreadsheets with a single system your team actually trusts and adopts.",
+    name: "The outcome we design for",
+    role: "Systems & dashboards",
   },
 ];
 
 export type TeamMember = { name: string; role: string; bio: string; accent: string };
 
-/** Placeholder team — swap for real people. */
+/** Real team. Add more members here as the team grows — shape stays stable. */
 export const team: TeamMember[] = [
   {
-    name: "A. Rahman",
-    role: "Founder & AI Lead",
-    bio: "Ships agents and automation to production. Ex-platform engineer.",
+    name: "Jawad Zuberi",
+    role: "CEO & Founder",
+    bio: "Leads Agentix Solution end to end, shipping AI automation, agents, and custom software to production for clients who want systems they own.",
     accent: "#5b6cff",
-  },
-  {
-    name: "M. Silva",
-    role: "Design Director",
-    bio: "Leads product, UX, and brand design across web, software, and apps. Detail obsessive.",
-    accent: "#e2542c",
-  },
-  {
-    name: "K. Osei",
-    role: "Principal Engineer",
-    bio: "Custom software and platforms, with tests and CI/CD from day one.",
-    accent: "#a23bbf",
-  },
-  {
-    name: "J. Park",
-    role: "Growth & Marketing Lead",
-    bio: "Builds measurable growth programs across search, paid, and conversion.",
-    accent: "#7a2e8f",
   },
 ];
 
-/** Placeholder client logos (wordmarks rendered as text). */
+/**
+ * Real, production-grade tooling we build with (rendered as wordmarks) — not
+ * client logos. Honest and verifiable in place of fabricated client names.
+ */
 export const clients: string[] = [
-  "Northwind",
-  "Lumen",
-  "Atlas",
-  "Vertex",
-  "Orbit",
-  "Nimbus",
-  "Quanta",
-  "Helix",
+  "OpenAI",
+  "Anthropic",
+  "Vercel",
+  "Next.js",
+  "Supabase",
+  "Stripe",
+  "Postgres",
+  "n8n",
 ];
 
 export const about = {
@@ -778,24 +771,24 @@ export const about = {
     "We envision a future where every growing business runs on intelligent, connected systems. We're building toward that future by making AI automation and custom development the foundation of how modern companies operate.",
   different: [
     {
-      title: "AI at the Core",
-      body: "We design intelligence into everything we build, using automation and AI to remove friction and unlock real efficiency.",
+      title: "AI specialists, not generalists",
+      body: "Automation and AI agents are our core craft. Everything else we build exists to make that intelligence useful in your business.",
     },
     {
-      title: "Built Around Your Business",
-      body: "Every solution is tailored to your goals and workflows — never a generic template forced to fit.",
+      title: "We ship to production",
+      body: "Our work doesn't end at a prototype. We take systems all the way to live, tested, and running in the real world.",
     },
     {
-      title: "Engineering You Can Trust",
-      body: "We build secure, scalable, and well-documented systems designed to perform reliably and grow with you.",
+      title: "You own everything",
+      body: "Code, infrastructure, and documentation are handed to you. No lock-in, no black boxes, no dependence on us to keep the lights on.",
     },
     {
-      title: "Design That Feels Premium",
-      body: "Clean, modern, and intuitive experiences make your products a pleasure to use and a pleasure to own.",
+      title: "Senior-led craft",
+      body: "Experienced people design and build your systems directly — thoughtful, modern, and a pleasure to use and to own.",
     },
     {
-      title: "True End-to-End Partnership",
-      body: "From planning to launch and beyond, we stay involved with clear communication and dependable support.",
+      title: "A partner through launch",
+      body: "We stay close from first conversation to go-live and beyond, with clear communication and dependable delivery.",
     },
   ],
   approach:
@@ -803,25 +796,25 @@ export const about = {
 };
 
 export const servicesPage = {
-  heading: "Technology and Automation Services That Drive Growth",
+  heading: "AI Automation Services — and Everything Around Them",
   intro:
-    "From AI automation and custom software to websites, apps, SaaS platforms, and digital marketing, we deliver the systems modern businesses need to work smarter and scale faster.",
+    "We lead with AI automation and agent development, then build the software, websites, apps, SaaS platforms, CRMs, and growth systems that put that intelligence to work. One team, ship to production, code you own.",
   whyDifferent: [
     {
-      title: "Solutions Built Around Outcomes",
-      body: "We focus on the results that matter to your business, not a checklist of features — every solution is tied to measurable goals.",
+      title: "Scoped around the result",
+      body: "Every engagement starts from the outcome you need and works backward — not a fixed menu of features you may not use.",
     },
     {
-      title: "AI and Automation by Default",
-      body: "We bring intelligence and automation into every service, helping you reduce manual work and operate more efficiently.",
+      title: "AI woven through the work",
+      body: "Whatever the service, we look for where automation and agents can remove manual effort and make the system smarter.",
     },
     {
-      title: "Premium Quality, End to End",
-      body: "From design to development to launch, we hold every project to a high standard of quality, security, and reliability.",
+      title: "Held to a production standard",
+      body: "Tests, security, performance, and documentation are part of the build, so what launches is reliable from day one.",
     },
     {
-      title: "One Partner for Your Digital Systems",
-      body: "Automation, software, web, mobile, and growth — all delivered by one team that understands how the pieces fit together.",
+      title: "One team across the stack",
+      body: "Automation, software, web, mobile, and growth are handled by people who understand how the pieces connect.",
     },
   ],
 };

@@ -20,17 +20,20 @@ export function Faq() {
       <div className="mx-auto mt-12 max-w-3xl divide-y divide-line border-y border-line">
         {faqs.map((f, i) => {
           const isOpen = open === i;
+          const panelId = `faq-panel-${i}`;
           return (
             <div key={f.q} className="group">
               <button
                 className="flex w-full items-center justify-between gap-4 rounded-lg py-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                 onClick={() => setOpen(isOpen ? null : i)}
                 aria-expanded={isOpen}
-                aria-label={`Toggle answer: ${f.q}`}
+                aria-controls={panelId}
               >
                 <span
-                  className={`text-lg font-medium transition-colors duration-300 group-hover:text-gradient ${
-                    isOpen ? "text-gradient" : "text-fg"
+                  className={`text-lg font-medium transition-colors duration-300 group-hover:text-[var(--color-brand-purple)] ${
+                    isOpen
+                      ? "text-[var(--color-brand-purple)]"
+                      : "text-fg"
                   }`}
                 >
                   {f.q}
@@ -47,6 +50,10 @@ export function Faq() {
                 </span>
               </button>
               <div
+                id={panelId}
+                role="region"
+                aria-hidden={!isOpen}
+                inert={!isOpen}
                 className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
                   isOpen
                     ? "grid-rows-[1fr] pb-6 opacity-100"

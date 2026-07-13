@@ -18,6 +18,8 @@ export function Header() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -56,6 +58,21 @@ export function Header() {
 
   // Close the mobile menu on route change.
   useEffect(() => setOpen(false), [pathname]);
+
+  // When the mobile menu opens: focus its first link, and wire Escape to
+  // close it and return focus to the toggle button.
+  useEffect(() => {
+    if (!open) return;
+    mobileMenuRef.current?.querySelector<HTMLElement>("a")?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <header
@@ -103,10 +120,12 @@ export function Header() {
           </div>
 
           <button
+            ref={toggleRef}
             className="md:hidden rounded-lg p-2 text-fg"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={open}
+            aria-controls="mobile-menu"
           >
             <div className="space-y-1.5">
               <span
@@ -137,7 +156,11 @@ export function Header() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="glass glow mt-2 rounded-2xl p-4 md:hidden">
+          <div
+            id="mobile-menu"
+            ref={mobileMenuRef}
+            className="glass glow mt-2 rounded-2xl p-4 md:hidden"
+          >
             <nav className="flex flex-col">
               {nav.map((item) => (
                 <Link

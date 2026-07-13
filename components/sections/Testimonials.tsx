@@ -10,7 +10,7 @@ export function Testimonials() {
       <SectionDivider className="container-x" />
       <section className="container-x py-24 sm:py-32">
         <SectionHeading
-          eyebrow="What clients say"
+          eyebrow="What we believe"
           title={
             <>
               We don&rsquo;t demo AI.{" "}

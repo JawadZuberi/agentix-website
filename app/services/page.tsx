@@ -9,11 +9,28 @@ import { Aurora } from "@/components/ui/Aurora";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { services, servicesPage } from "@/lib/content";
 import { servicesLd, faqLd, jsonLdScript } from "@/lib/jsonld";
+import { site } from "@/lib/site";
+
+const pageTitle = "Services — AI automation, web, mobile, software & growth";
+const pageDescription =
+  "Agentix Solution services: AI automation, AI agent development, website and mobile app development, custom software, SaaS, CRM and dashboard development, API integration, ecommerce, and digital marketing — each built around measurable business outcomes.";
 
 export const metadata: Metadata = {
-  title: "Services — AI automation, web, mobile, software & growth",
-  description:
-    "Agentix Solution services: AI automation, AI agent development, website and mobile app development, custom software, SaaS, CRM and dashboard development, API integration, ecommerce, and digital marketing — each built around measurable business outcomes.",
+  title: pageTitle,
+  description: pageDescription,
+  alternates: { canonical: "/services" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${pageTitle} · ${site.name}`,
+    description: pageDescription,
+    url: `${site.url}/services`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${pageTitle} · ${site.name}`,
+    description: pageDescription,
+  },
 };
 
 export default function ServicesPage() {
@@ -36,6 +53,37 @@ export default function ServicesPage() {
           intro={servicesPage.intro}
         />
       </div>
+
+      {/* How we engage — qualitative engagement models (no invented pricing),
+          set up front to lower budget-field friction before the enquiry. */}
+      <section className="container-x">
+        <Reveal>
+          <div className="card-hover rounded-3xl border border-line bg-surface/40 p-6 sm:p-8">
+            <p className="text-xs uppercase tracking-wider text-faint">
+              How we engage
+            </p>
+            <p className="mt-3 text-lg font-medium text-fg">
+              We scope to your goals and budget before any commitment — most
+              engagements take one of three shapes.
+            </p>
+            <ul className="mt-5 flex flex-wrap gap-2.5">
+              {[
+                "Discovery sprint",
+                "Fixed-scope build",
+                "Ongoing automation retainer",
+              ].map((model) => (
+                <li
+                  key={model}
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-2/60 px-4 py-2 text-sm font-medium text-muted"
+                >
+                  <span className="size-1.5 shrink-0 rounded-full bg-grad" />
+                  {model}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      </section>
 
       <section className="container-x space-y-4">
         {services.map((s, i) => (

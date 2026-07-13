@@ -12,11 +12,16 @@ export const site = {
   email: "info@agentixsolution.com",
   phone: "+92 311 3857797",
   location: "Fortune Tower, Shahrah-e-Faisal, Karachi, Pakistan",
+  // Year the company was founded — used for JSON-LD and footer copyright.
+  foundingYear: "2025",
+  // Real profile URLs only. Leave empty strings until a real profile exists —
+  // bare roots (https://twitter.com/) pollute JSON-LD sameAs. The SEO layer
+  // filters out empties; keep the keys so the Footer map doesn't break.
   social: {
-    twitter: "https://twitter.com/",
-    linkedin: "https://www.linkedin.com/",
-    github: "https://github.com/",
-    dribbble: "https://dribbble.com/",
+    twitter: "",
+    linkedin: "",
+    github: "https://github.com/JawadZuberi/agentix-website",
+    dribbble: "",
   },
   keywords: [
     "AI automation agency",
